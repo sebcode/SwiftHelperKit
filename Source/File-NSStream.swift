@@ -13,7 +13,7 @@ extension File {
 
     // MARK: Convenience getters
 
-    func getInputStream() throws -> NSInputStream {
+    public func getInputStream() throws -> NSInputStream {
         guard let inputStream = NSInputStream(fileAtPath: name) else {
             throw FileError.FileNotReadable(file: name)
         }
@@ -21,7 +21,7 @@ extension File {
         return inputStream
     }
 
-    func getOutputStream(append: Bool) throws -> NSOutputStream {
+    public func getOutputStream(append: Bool) throws -> NSOutputStream {
         guard let outputStream = NSOutputStream(toFileAtPath: name, append: append) else {
             throw FileError.FileNotWriteable(file: name)
         }

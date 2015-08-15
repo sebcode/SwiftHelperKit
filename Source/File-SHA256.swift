@@ -14,7 +14,7 @@ import CommonCrypto
 
 extension File {
 
-    func computeSHA256(range: (from: Int64, to: Int64)) throws -> String {
+    public func computeSHA256(range: (from: Int64, to: Int64)) throws -> String {
         var hash: [UInt8] = Array(count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
 
         let expectedTotalBytes: Int64 = range.to - range.from + 1
@@ -67,7 +67,7 @@ extension File {
         return hash.map { byte in byte.toHex() }.reduce("", combine: +)
     }
 
-    func computeSHA256Async(range: (from: Int64, to: Int64), done: (result: String?) -> Void) {
+    public func computeSHA256Async(range: (from: Int64, to: Int64), done: (result: String?) -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             var hashStr: String? = nil
             do {
@@ -80,7 +80,7 @@ extension File {
         }
     }
 
-    func computeSHA256() throws -> String {
+    public func computeSHA256() throws -> String {
         var hash: [UInt8] = Array(count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
 
         guard exists else {
@@ -113,7 +113,7 @@ extension File {
         return hash.map { byte in byte.toHex() }.reduce("", combine: +)
     }
 
-    func computeSHA256Async(done: (result: String?) -> Void) {
+    public func computeSHA256Async(done: (result: String?) -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             var hashStr: String? = nil
             do {

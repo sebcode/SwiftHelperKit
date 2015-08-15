@@ -9,7 +9,7 @@ import Foundation
 
 public extension NSTimeInterval {
 
-    var formatTimeLeft: String? {
+    public var formatTimeLeft: String? {
         if self.isNaN || self == Double.infinity {
             return nil
         }

@@ -10,7 +10,7 @@ import CommonCrypto
 
 public extension String {
 
-    func sha256sum() -> String {
+    public func sha256sum() -> String {
         guard let data = (self as NSString).dataUsingEncoding(NSUTF8StringEncoding) else {
             return ""
         }

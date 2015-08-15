@@ -11,7 +11,7 @@ import SwiftyJSON
 
 extension File {
 
-    func readJSON() throws -> JSON {
+    public func readJSON() throws -> JSON {
         guard let data = File.manager.contentsAtPath(name) else {
             throw FileError.FileNotReadable(file: name)
         }
@@ -25,7 +25,7 @@ extension File {
         return json
     }
 
-    func writeJSON(json: JSON) throws {
+    public func writeJSON(json: JSON) throws {
         let data = try json.rawData(options: .PrettyPrinted)
         if let str = NSString(data: data, encoding: NSUTF8StringEncoding) as? String {
             try setContents(str)

@@ -11,7 +11,7 @@ import Foundation
 
 extension FilePath {
 
-    static func createTemp(prefix: String = "tmp") throws -> Self {
+    public static func createTemp(prefix: String = "tmp") throws -> Self {
         let uuid: CFUUIDRef = CFUUIDCreate(nil)
         let uuidString = CFUUIDCreateString(nil, uuid)
         let name = NSString(string: NSTemporaryDirectory()).stringByAppendingPathComponent("\(prefix)-\(uuidString)")
