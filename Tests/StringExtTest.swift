@@ -31,6 +31,9 @@ class StringExtTest: BaseTest {
     func testDataFromHexadecimalString() {
         XCTAssertEqual("aabb0011", "AABB0011".dataFromHexString()!.hexString())
         XCTAssertEqual("aabb0011", "aabb0011".dataFromHexString()!.hexString())
+        XCTAssertEqual("", "".dataFromHexString()!.hexString())
+
+        XCTAssertTrue("zzz".dataFromHexString() == nil)
     }
 
 }

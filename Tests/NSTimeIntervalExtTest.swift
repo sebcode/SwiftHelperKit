@@ -42,6 +42,12 @@ class NSTimeIntervalExtTest: BaseTest {
         
         d = NSTimeInterval(100 * 60 * 60)
         XCTAssertEqual("100 hours", d.formatTimeLeft!)
+
+        d = NSTimeInterval(-1)
+        XCTAssertTrue(d.formatTimeLeft == nil)
+
+        d = NSTimeInterval(Double.NaN)
+        XCTAssertTrue(d.formatTimeLeft == nil)
     }
 
 }

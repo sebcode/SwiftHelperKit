@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		96286B231B7E54C200567CA3 /* SwiftHelperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96286B181B7E54C200567CA3 /* SwiftHelperKit.framework */; };
 		96286B391B7E555700567CA3 /* File-JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B321B7E555700567CA3 /* File-JSON.swift */; };
 		96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B331B7E555700567CA3 /* File-NSStream.swift */; };
 		96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B341B7E555700567CA3 /* File-SHA256.swift */; };
@@ -24,7 +23,8 @@
 		9639E56D1B7F672400BFE038 /* IniParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E56C1B7F672400BFE038 /* IniParser.swift */; };
 		9639E5711B7F675100BFE038 /* IniParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E5701B7F675100BFE038 /* IniParserTest.swift */; };
 		96732D2D1B7E59240034859F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96732D2C1B7E59240034859F /* SwiftyJSON.framework */; };
-		96732D321B7E5AC80034859F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96732D2C1B7E59240034859F /* SwiftyJSON.framework */; };
+		9698950D1B807887000285E8 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96732D2C1B7E59240034859F /* SwiftyJSON.framework */; };
+		969895101B807DF7000285E8 /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96732D2C1B7E59240034859F /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		96AB7C131B7F68D500CE2BB1 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C121B7F68D500CE2BB1 /* StringExt.swift */; };
 		96AB7C171B7F69DB00CE2BB1 /* StringExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */; };
 		96AB7C191B7F6A7200CE2BB1 /* NSDataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */; };
@@ -49,6 +49,19 @@
 			remoteInfo = File;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9698950B1B8077CB000285E8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				969895101B807DF7000285E8 /* SwiftyJSON.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		96286B181B7E54C200567CA3 /* SwiftHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,8 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96732D321B7E5AC80034859F /* SwiftyJSON.framework in Frameworks */,
-				96286B231B7E54C200567CA3 /* SwiftHelperKit.framework in Frameworks */,
+				9698950D1B807887000285E8 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +245,7 @@
 				96286B1E1B7E54C200567CA3 /* Sources */,
 				96286B1F1B7E54C200567CA3 /* Frameworks */,
 				96286B201B7E54C200567CA3 /* Resources */,
+				9698950B1B8077CB000285E8 /* CopyFiles */,
 			);
 			buildRules = (
 			);

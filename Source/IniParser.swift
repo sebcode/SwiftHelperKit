@@ -10,7 +10,7 @@ import Foundation
 public class IniParser {
 
     public class func parse(string string: String) -> [String: [String: String]] {
-        guard string == "" else {
+        guard string != "" else {
             return [:]
         }
 

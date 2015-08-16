@@ -25,10 +25,6 @@ public extension NSTimeInterval {
         let hours = Int(round(self / 3600))
         let minutes = Int(round((self % 3600) / 60))
 
-        if hours <= 0 && minutes <= 0 {
-            return nil
-        }
-
         if hours == 1 {
             return "1 hour"
         }

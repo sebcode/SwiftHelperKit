@@ -19,6 +19,11 @@ class FileTestIniReader: BaseTest {
     }
 
     func testReadIni() {
+        let tmpFile = try! File.createTemp()
+        try! tmpFile.setContents("[a]\nb=c")
+
+        XCTAssertTrue(try! tmpFile.readIni() == ["a" : ["b" : "c"]])
+        try! tmpFile.delete()
     }
 
 }

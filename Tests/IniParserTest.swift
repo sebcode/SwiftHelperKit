@@ -19,6 +19,9 @@ class IniParserTest: BaseTest {
     }
 
     func testParse() {
+        var ret = IniParser.parse(string: "")
+        XCTAssertEqual(0, ret.count)
+
         let data = "[credentials]\n"
             + "access_key = access123\n"
             + "secret = secret123\n"
@@ -28,7 +31,7 @@ class IniParserTest: BaseTest {
             + "data = 1\n"
             + "test = 2\n"
 
-        let ret = IniParser.parse(string: data)
+        ret = IniParser.parse(string: data)
 
         XCTAssertEqual(2, ret.count)
         XCTAssertEqual(2, ret["config"]!.count)

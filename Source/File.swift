@@ -182,7 +182,9 @@ public class File: FilePath {
             return
         }
 
-        File.manager.createFileAtPath(name, contents: data, attributes: nil)
+        if File.manager.createFileAtPath(name, contents: data, attributes: nil) == false {
+            throw FileError.FileNotWriteable(file: name)
+        }
     }
 
     public func append(srcFile: File) throws {
