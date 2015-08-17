@@ -1,5 +1,6 @@
 //
 //  File.swift
+//  SwiftHelperKit
 //
 //  Copyright © 2015 Sebastian Volland. All rights reserved.
 //
@@ -56,7 +57,7 @@ public class FilePath {
     // MARK: Convenience properties
 
     public var url: NSURL? {
-        return NSURL(string: name)
+        return NSURL(fileURLWithPath: name)
     }
 
     public var exists: Bool {
@@ -109,7 +110,27 @@ public class FilePath {
 
 public class Directory: FilePath {
 
+    public class func applicationSupportDirectory() -> Directory {
+        let urls = Directory.manager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
+        let dirUrl = urls[urls.count - 1] as NSURL
+        return Directory(name: dirUrl.path!)
+    }
+
+    public class func homeDirectory() -> Directory {
+        return Directory(name: NSHomeDirectory())
+    }
+
     // MARK: Convenience properties
+
+    public func file(name: String) -> File {
+        let subUrl = url?.URLByAppendingPathComponent(name)
+        return File(name: subUrl!.path!)
+    }
+
+    public func subDirectory(name: String) -> Directory {
+        let subUrl = url?.URLByAppendingPathComponent(name)
+        return Directory(name: subUrl!.path!)
+    }
 
     public override var exists: Bool {
         guard let dirUrl = url else {
@@ -187,6 +208,19 @@ public class File: FilePath {
         }
     }
 
+    public func append(string: String) throws {
+        guard let handle = NSFileHandle(forWritingAtPath: name) else {
+            throw FileError.FileNotWriteable(file: name)
+        }
+
+        guard let data = NSString(string: string).dataUsingEncoding(NSUTF8StringEncoding) else {
+            throw FileError.FileNotWriteable(file: name)
+        }
+        handle.seekToEndOfFile()
+        handle.writeData(data)
+        handle.closeFile()
+    }
+
     public func append(srcFile: File) throws {
         let outputStream = try getOutputStream(true)
         outputStream.open()
@@ -215,7 +249,7 @@ public class File: FilePath {
         guard let data = File.manager.contentsAtPath(name) else {
             throw FileError.FileNotReadable(file: name)
         }
-        
+
         guard let str = NSString(data: data, encoding:NSUTF8StringEncoding) else {
             throw FileError.FileNotReadable(file: name)
         }

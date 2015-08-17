@@ -45,6 +45,18 @@ class FileTest: BaseTest {
         } catch { }
     }
 
+    func testCreateFromExisting() {
+        let file = try! File.createTemp()
+        let file2 = try! File.existing(file.name)
+        XCTAssertEqual(file.name, file2.name)
+        try! file.delete()
+
+        do {
+            try File.existing(file.name)
+            XCTFail()
+        } catch { }
+    }
+
     func testSetAndGetContents() {
         let file = try! File.createTemp()
         XCTAssertTrue(file.exists)
@@ -105,5 +117,43 @@ class FileTest: BaseTest {
         
         try! srcFile.delete()
     }
-    
+
+    func testUrl() {
+        let file = try! File.createTemp()
+        XCTAssertEqual(file.name, file.url!.path)
+        try! file.delete()
+    }
+
+    func testDisplayName() {
+        let file = File(name: "/tmp/Test123")
+        XCTAssertEqual("Test123", file.displayName)
+    }
+
+    func testMtime() {
+        let file = try! File.createTemp()
+        XCTAssertTrue(file.mtime!.timeIntervalSinceNow <= 3)
+        try! file.delete()
+
+        XCTAssertNil(file.mtime)
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "96286B171B7E54C200567CA3"
                BuildableName = "SwiftHelperKit.framework"
-               BlueprintName = "SwiftHelperKit"
+               BlueprintName = "SwiftHelperKit OSX"
                ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,7 +30,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "96286B211B7E54C200567CA3"
                BuildableName = "SwiftHelperKitTests.xctest"
-               BlueprintName = "SwiftHelperKitTests"
+               BlueprintName = "SwiftHelperKit OSX Tests"
                ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -49,7 +49,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "96286B211B7E54C200567CA3"
                BuildableName = "SwiftHelperKitTests.xctest"
-               BlueprintName = "SwiftHelperKitTests"
+               BlueprintName = "SwiftHelperKit OSX Tests"
                ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -59,7 +59,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96286B171B7E54C200567CA3"
             BuildableName = "SwiftHelperKit.framework"
-            BlueprintName = "SwiftHelperKit"
+            BlueprintName = "SwiftHelperKit OSX"
             ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -81,7 +81,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96286B171B7E54C200567CA3"
             BuildableName = "SwiftHelperKit.framework"
-            BlueprintName = "SwiftHelperKit"
+            BlueprintName = "SwiftHelperKit OSX"
             ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -99,7 +99,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96286B171B7E54C200567CA3"
             BuildableName = "SwiftHelperKit.framework"
-            BlueprintName = "SwiftHelperKit"
+            BlueprintName = "SwiftHelperKit OSX"
             ReferencedContainer = "container:SwiftHelperKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
