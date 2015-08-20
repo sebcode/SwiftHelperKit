@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96071FAF1B8640C00097C61E /* DirectoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FAD1B8640A50097C61E /* DirectoryTest.swift */; };
+		96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FAD1B8640A50097C61E /* DirectoryTest.swift */; };
+		96071FB21B8641F90097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
+		96071FB31B86421C0097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
 		96286B391B7E555700567CA3 /* File-JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B321B7E555700567CA3 /* File-JSON.swift */; };
 		96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B331B7E555700567CA3 /* File-NSStream.swift */; };
 		96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B341B7E555700567CA3 /* File-SHA256.swift */; };
@@ -114,6 +118,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		96071FAD1B8640A50097C61E /* DirectoryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryTest.swift; sourceTree = "<group>"; };
+		96071FB11B8641F90097C61E /* Directory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		96286B181B7E54C200567CA3 /* SwiftHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B221B7E54C200567CA3 /* SwiftHelperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftHelperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B321B7E555700567CA3 /* File-JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-JSON.swift"; path = "Source/File-JSON.swift"; sourceTree = SOURCE_ROOT; };
@@ -215,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				96286B371B7E555700567CA3 /* File.swift */,
+				96071FB11B8641F90097C61E /* Directory.swift */,
 				96286B351B7E555700567CA3 /* File-Temp.swift */,
 				96286B321B7E555700567CA3 /* File-JSON.swift */,
 				96286B331B7E555700567CA3 /* File-NSStream.swift */,
@@ -239,6 +246,7 @@
 			children = (
 				96286B5C1B7E56E200567CA3 /* BaseTest.swift */,
 				96286B611B7E56E200567CA3 /* FileTest.swift */,
+				96071FAD1B8640A50097C61E /* DirectoryTest.swift */,
 				96286B601B7E56E200567CA3 /* FileTest-Temp.swift */,
 				96286B5D1B7E56E200567CA3 /* FileTest-JSON.swift */,
 				96286B5E1B7E56E200567CA3 /* FileTest-NSStream.swift */,
@@ -473,6 +481,7 @@
 				96AB7C401B7F6E0800CE2BB1 /* UInt8Ext.swift in Sources */,
 				96AB7C5D1B7F70FC00CE2BB1 /* File-SHA256TreeHash.swift in Sources */,
 				96AB7C191B7F6A7200CE2BB1 /* NSDataExt.swift in Sources */,
+				96071FB21B8641F90097C61E /* Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +497,7 @@
 				96AB7C1E1B7F6B1700CE2BB1 /* NSTimeIntervalExtTest.swift in Sources */,
 				96286B651B7E56E200567CA3 /* FileTest-SHA256.swift in Sources */,
 				9639E5711B7F675100BFE038 /* IniParserTest.swift in Sources */,
+				96071FAF1B8640C00097C61E /* DirectoryTest.swift in Sources */,
 				9639E56B1B7F671600BFE038 /* FileTest-IniReader.swift in Sources */,
 				96286B671B7E56E200567CA3 /* FileTest.swift in Sources */,
 				96AB7C5F1B7F715E00CE2BB1 /* FileTest-SHA256TreeHash.swift in Sources */,
@@ -504,6 +514,7 @@
 				963788FC1B85FF21003102F2 /* FileTest-IniReader.swift in Sources */,
 				963789001B85FF21003102F2 /* NSTimeIntervalExtTest.swift in Sources */,
 				963788F91B85FF21003102F2 /* FileTest-NSStream.swift in Sources */,
+				96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */,
 				963788FA1B85FF21003102F2 /* FileTest-SHA256.swift in Sources */,
 				963788FB1B85FF21003102F2 /* FileTest-SHA256TreeHash.swift in Sources */,
 				963788F61B85FF21003102F2 /* FileTest.swift in Sources */,
@@ -535,6 +546,7 @@
 				96D7B0861B85FDBD00D2A32E /* IniParser.swift in Sources */,
 				96D7B08A1B85FDBD00D2A32E /* NSDateExt.swift in Sources */,
 				96D7B0891B85FDBD00D2A32E /* NSDataExt.swift in Sources */,
+				96071FB31B86421C0097C61E /* Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
