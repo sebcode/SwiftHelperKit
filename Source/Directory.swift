@@ -28,6 +28,10 @@ public class Directory: FilePath {
         return Directory(name: NSHomeDirectory())
     }
 
+    public class func tempDirectory() -> Directory {
+        return Directory(name: NSTemporaryDirectory())
+    }
+
     // MARK: Convenience properties
 
     public func file(name: String) -> File {
@@ -35,18 +39,21 @@ public class Directory: FilePath {
         return File(name: subUrl!.path!)
     }
 
-    public func nextNewFile(name: String) -> File? {
-        var targetFile = file(name)
+    public func nextNewFile(name: String, appendix: String = "", tries: Int = 10000) -> File? {
+        let baseName = file(name).name
+        let append = (appendix == "" ? "" : ".\(appendix)")
+
+        var targetFile = file(name + append)
 
         var counter = 1
 
         while targetFile.exists {
-            let n = NSString(string: name).stringByDeletingPathExtension + " (\(++counter))"
-            let ext = NSString(string: name).pathExtension
-            let newName = n + (ext == "" ? "" : ".") + ext
-            targetFile = file(newName)
+            let n = NSString(string: baseName).stringByDeletingPathExtension + " (\(++counter))"
+            let ext = NSString(string: baseName).pathExtension
+            let newName = n + (ext == "" ? "" : ".") + ext + append
+            targetFile = File(name: newName)
 
-            if counter >= 10000 {
+            if counter >= tries {
                 return nil
             }
         }
@@ -90,6 +97,15 @@ public class Directory: FilePath {
         } catch _ {
             throw FileError.FileNotWriteable(file: name)
         }
+    }
+
+    public func createTempFile(prefix: String = "tmp") throws -> File {
+        let uuid: CFUUIDRef = CFUUIDCreate(nil)
+        let uuidString = CFUUIDCreateString(nil, uuid)
+        let name = NSString(string: self.name).stringByAppendingPathComponent("\(prefix)-\(uuidString)")
+        let file = File(name: name)
+        try file.create()
+        return file
     }
     
 }

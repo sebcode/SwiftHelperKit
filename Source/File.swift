@@ -60,6 +60,10 @@ public class FilePath {
         return NSURL(fileURLWithPath: name)
     }
 
+    public var baseName: String {
+        return NSString(string: name).lastPathComponent
+    }
+
     public var exists: Bool {
         return FilePath.manager.fileExistsAtPath(name)
     }
@@ -83,6 +87,16 @@ public class FilePath {
         }
     }
 
+    // MARK: Convenience functions
+
+    public func nameWithoutExtension(ext: String = "") -> String {
+        if ext == "" || NSString(string: name).pathExtension == ext {
+            return NSString(string: name).stringByDeletingPathExtension
+        }
+
+        return name
+    }
+
     // MARK: Write operations
 
     public func create() throws {
@@ -103,6 +117,26 @@ public class FilePath {
             return false
         }
     }
+
+    #if os(OSX)
+    public func trash() -> File? {
+        guard let trashUrl = url else {
+            return nil
+        }
+
+        do {
+            var resultUrl: NSURL?
+            try File.manager.trashItemAtURL(trashUrl, resultingItemURL: &resultUrl)
+            guard let newPath = resultUrl?.path else {
+                return nil
+            }
+
+            return File(name: newPath)
+        } catch {
+            return nil
+        }
+    }
+    #endif
 
 }
 
@@ -126,6 +160,14 @@ public class File: FilePath {
     public override func create() throws {
         if !File.manager.createFileAtPath(name, contents: nil, attributes: nil) {
             throw FileError.FileNotWriteable(file: name)
+        }
+    }
+
+    public func move(destFile: File) throws {
+        do {
+            try File.manager.moveItemAtPath(name, toPath: destFile.name)
+        } catch {
+            throw FileError.FileNotWriteable(file: destFile.name)
         }
     }
 

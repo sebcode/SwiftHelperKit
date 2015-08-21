@@ -45,6 +45,20 @@ class FileTest: BaseTest {
         } catch { }
     }
 
+    #if os(OSX)
+    func testTrash() {
+        let tmpFile = try! File.createTemp()
+        XCTAssertTrue(tmpFile.exists)
+
+        let trashedFile = tmpFile.trash()
+        XCTAssertFalse(tmpFile.exists)
+        XCTAssertTrue(trashedFile!.exists)
+
+        XCTAssertTrue(trashedFile!.name.rangeOfString(".Trash") != nil)
+        trashedFile!.deleteIfExists()
+    }
+    #endif
+
     func testCreateFromExisting() {
         let file = try! File.createTemp()
         let file2 = try! File.existing(file.name)
@@ -104,6 +118,23 @@ class FileTest: BaseTest {
         try! file.delete()
     }
 
+    func testMove() {
+        let tmpDir = try! Directory.createTemp()
+
+        let srcFile = tmpDir.file("srcFile")
+        try! srcFile.setContents("123")
+
+        let destFile = tmpDir.file("destFile")
+        try! srcFile.move(destFile)
+
+        XCTAssertFalse(srcFile.exists)
+        XCTAssertTrue(destFile.exists)
+        XCTAssertEqual("123", try! destFile.getContents())
+
+        destFile.deleteIfExists()
+        tmpDir.deleteIfExists()
+    }
+
     func testAppend() {
         let destFile = try! File.createTemp()
         try! destFile.setContents("hallo123")
@@ -135,6 +166,24 @@ class FileTest: BaseTest {
         try! file.delete()
 
         XCTAssertNil(file.mtime)
+    }
+
+    func testNameWithoutExtension() {
+        let tmpDir = try! Directory.createTemp()
+
+        var tmpFile = tmpDir.file("Hallo.txt")
+        XCTAssertEqual(tmpDir.file("Hallo").name, tmpFile.nameWithoutExtension())
+        XCTAssertEqual(tmpDir.file("Hallo").name, tmpFile.nameWithoutExtension("txt"))
+        XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension("part"))
+        tmpFile.deleteIfExists()
+
+        tmpFile = tmpDir.file("Hallo.txt.txt")
+        XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension())
+        XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension("txt"))
+        XCTAssertEqual(tmpDir.file("Hallo.txt.txt").name, tmpFile.nameWithoutExtension("part"))
+        tmpFile.deleteIfExists()
+
+        tmpDir.deleteIfExists()
     }
 
 }
