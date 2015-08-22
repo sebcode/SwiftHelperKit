@@ -18,6 +18,42 @@ class DirectoryTest: BaseTest {
         super.tearDown()
     }
 
+    func testGlob() {
+        let tmpDir = try! Directory.createTemp()
+
+        var exp1 = [FilePath]()
+        exp1 += [ tmpDir.file("Test1.txt") ]
+        exp1 += [ tmpDir.file("Test2.txt") ]
+        exp1 += [ tmpDir.file("Test3.txt") ]
+        exp1.forEach { try! $0.create() }
+        exp1 = exp1.sort { $0.name < $1.name }
+
+        var exp2 = [FilePath]()
+        exp2 += [ tmpDir.file("Bla.dat") ]
+        exp2.forEach { try! $0.create() }
+
+        var exp3 = [FilePath]()
+        exp3 += [ tmpDir.subDirectory("Hallo") ]
+        exp3.forEach { try! $0.create() }
+
+        var ret = tmpDir.glob("*.txt")!.sort { $0.name < $1.name }
+        XCTAssertTrue(exp1 == ret)
+
+        ret = tmpDir.glob("*.dat")!
+        XCTAssertTrue(exp2 == ret)
+
+        var all = exp1 + exp2 + exp3
+        all = all.sort { $0.name < $1.name }
+        ret = tmpDir.glob("*")!.sort { $0.name < $1.name }
+        XCTAssertTrue(all == ret)
+
+        exp1.forEach { $0.deleteIfExists() }
+        exp2.forEach { $0.deleteIfExists() }
+        exp3.forEach { $0.deleteIfExists() }
+        tmpDir.deleteIfExists()
+        XCTAssertFalse(tmpDir.exists)
+    }
+
     func testCreateTempFile() {
         let tmpDir = try! Directory.createTemp()
 

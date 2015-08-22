@@ -12,6 +12,8 @@ import Foundation
 
 public class Directory: FilePath {
 
+    // MARK: Factories
+
     public class func applicationSupportDirectory() -> Directory {
         let urls = Directory.manager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
         let dirUrl = urls[urls.count - 1] as NSURL
@@ -32,13 +34,29 @@ public class Directory: FilePath {
         return Directory(name: NSTemporaryDirectory())
     }
 
-    // MARK: Convenience properties
+    public func subDirectory(name: String) -> Directory {
+        let subUrl = url?.URLByAppendingPathComponent(name)
+        return Directory(name: subUrl!.path!)
+    }
+
+    // MARK: File factories
 
     public func file(name: String) -> File {
         let subUrl = url?.URLByAppendingPathComponent(name)
         return File(name: subUrl!.path!)
     }
 
+    /// Find a new non-existing filename similar to `name`.
+    /// Filenames are counted up like `Testfile.txt`, `Testfile (2).txt`, `Testfile (3).txt`.
+    ///
+    /// If `appendix` is specified, it will be appended as an additional file extension,
+    /// e.g. appendix `part` would return `Testfile.txt.part`, `Testfile (2).txt.part`,
+    /// `Testfile (2).txt.part`, etc.
+    ///
+    /// - parameter name: Base filename without path.
+    /// - parameter appendix: Optional additional file extension.
+    /// - parameter tries: Maximum tries to find a non-existant filename.
+    /// - returns: A new `File` object or nil on failure.
     public func nextNewFile(name: String, appendix: String = "", tries: Int = 10000) -> File? {
         let baseName = file(name).name
         let append = (appendix == "" ? "" : ".\(appendix)")
@@ -61,10 +79,30 @@ public class Directory: FilePath {
         return targetFile
     }
 
-    public func subDirectory(name: String) -> Directory {
-        let subUrl = url?.URLByAppendingPathComponent(name)
-        return Directory(name: subUrl!.path!)
+    public func glob(pattern: String) -> [FilePath]? {
+        var globt = glob_t()
+        let p = NSString(string: name).stringByAppendingPathComponent(pattern)
+        let ret = Darwin.glob(p, GLOB_TILDE | GLOB_BRACE | GLOB_MARK, nil, &globt)
+        defer { globfree(&globt) }
+        guard ret == 0 else { return nil }
+
+        var result = [FilePath]()
+
+        for i in 0 ..< Int(globt.gl_matchc) {
+            guard let path = String.fromCString(globt.gl_pathv[i]) else {
+                continue
+            }
+
+            var isDir: ObjCBool = false
+            if FilePath.manager.fileExistsAtPath(path, isDirectory: &isDir) {
+                result += [ isDir ? Directory(name: path) : File(name: path) ]
+            }
+        }
+
+        return result
     }
+
+    // MARK: Convenience properties
 
     public override var exists: Bool {
         guard let dirUrl = url else {
@@ -99,13 +137,11 @@ public class Directory: FilePath {
         }
     }
 
+    /// Create a new empty temporary file
     public func createTempFile(prefix: String = "tmp") throws -> File {
-        let uuid: CFUUIDRef = CFUUIDCreate(nil)
-        let uuidString = CFUUIDCreateString(nil, uuid)
-        let name = NSString(string: self.name).stringByAppendingPathComponent("\(prefix)-\(uuidString)")
-        let file = File(name: name)
-        try file.create()
-        return file
+        let newFile = file("\(prefix)-\(NSUUID().UUIDString)")
+        try newFile.create()
+        return newFile
     }
     
 }

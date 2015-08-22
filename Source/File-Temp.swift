@@ -12,12 +12,10 @@ import Foundation
 extension FilePath {
 
     public static func createTemp(prefix: String = "tmp") throws -> Self {
-        let uuid: CFUUIDRef = CFUUIDCreate(nil)
-        let uuidString = CFUUIDCreateString(nil, uuid)
-        let name = NSString(string: NSTemporaryDirectory()).stringByAppendingPathComponent("\(prefix)-\(uuidString)")
-        let file = self.init(name: name)
-        try file.create()
-        return file
+        let tmpFile = Directory.tempDirectory().file("\(prefix)-\(NSUUID().UUIDString)")
+        let new = self.init(name: tmpFile.name)
+        try new.create()
+        return new
     }
 
 }

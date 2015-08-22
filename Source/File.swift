@@ -30,7 +30,11 @@ extension FileError: CustomStringConvertible {
 
 // MARK: Base class
 
-public class FilePath {
+public func ==(lhs: FilePath, rhs: FilePath) -> Bool {
+    return lhs.name == rhs.name
+}
+
+public class FilePath: CustomStringConvertible, Equatable {
 
     static let manager = NSFileManager.defaultManager()
 
@@ -55,6 +59,10 @@ public class FilePath {
     }
 
     // MARK: Convenience properties
+
+    public var description: String {
+        return name
+    }
 
     public var url: NSURL? {
         return NSURL(fileURLWithPath: name)
