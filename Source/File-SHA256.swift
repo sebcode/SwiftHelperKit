@@ -39,7 +39,6 @@ extension File {
         fileHandle.seekToFileOffset(UInt64(range.from))
 
         let bufSize: Int64 = 1024 * 1024
-        var buf: NSData
         var bytesLeft: Int64 = range.to - range.from + 1
         var bytesReadTotal: Int64 = 0
 
@@ -48,36 +47,32 @@ extension File {
 
         repeat {
             var readBytes: Int64 = bufSize
-            if readBytes > bytesLeft {
+            if bytesLeft < readBytes {
                 readBytes = bytesLeft
             }
-            buf = fileHandle.readDataOfLength(Int(readBytes))
-            if buf.length > 0 {
-                CC_SHA256_Update(&context, buf.bytes, CC_LONG(buf.length))
-                bytesLeft -= Int64(buf.length)
-                bytesReadTotal += Int64(buf.length)
+            var didRead = 0
+            autoreleasepool {
+                let buf = fileHandle.readDataOfLength(Int(readBytes))
+                didRead = buf.length
+                if buf.length > 0 {
+                    CC_SHA256_Update(&context, buf.bytes, CC_LONG(buf.length))
+                    bytesLeft -= Int64(buf.length)
+                    bytesReadTotal += Int64(buf.length)
+                }
             }
-        } while buf.length != 0
+            if didRead == 0 {
+                break
+            }
+        } while bytesLeft > 0
 
         if bytesReadTotal != expectedTotalBytes {
             throw FileError.FileNotReadable(file: name)
         }
 
+        fileHandle.closeFile()
+
         CC_SHA256_Final(&hash, &context)
         return hash.map { byte in byte.toHex() }.reduce("", combine: +)
-    }
-
-    public func computeSHA256Async(range: (from: Int64, to: Int64), done: (result: String?) -> Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            var hashStr: String? = nil
-            do {
-                hashStr = try self.computeSHA256(range)
-            } catch { }
-
-            dispatch_async(dispatch_get_main_queue()) {
-                done(result: hashStr)
-            }
-        }
     }
 
     public func computeSHA256() throws -> String {
@@ -111,19 +106,6 @@ extension File {
 
         CC_SHA256_Final(&hash, &context)
         return hash.map { byte in byte.toHex() }.reduce("", combine: +)
-    }
-
-    public func computeSHA256Async(done: (result: String?) -> Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            var hashStr: String? = nil
-            do {
-                hashStr = try self.computeSHA256()
-            } catch { }
-
-            dispatch_async(dispatch_get_main_queue()) {
-                done(result: hashStr)
-            }
-        }
     }
 
 }
