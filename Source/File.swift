@@ -179,6 +179,76 @@ public class File: FilePath {
         }
     }
 
+    public func copy(destFile: File) throws {
+        do {
+            try File.manager.copyItemAtPath(name, toPath: destFile.name)
+        } catch {
+            throw FileError.FileNotWriteable(file: destFile.name)
+        }
+    }
+
+    public func copy(destFile: File, range:(from: Int64, to: Int64)) throws {
+        let expectedTotalBytes: Int64 = range.to - range.from + 1
+
+        guard exists else {
+            throw FileError.FileNotReadable(file: name)
+        }
+
+        guard size > 0 else {
+            if expectedTotalBytes > 0 {
+                throw FileError.FileNotReadable(file: name)
+            }
+
+            try destFile.setContents("")
+            return
+        }
+
+        guard let readHandle = NSFileHandle(forReadingAtPath: name) else {
+            throw FileError.FileNotReadable(file: name)
+        }
+
+        if !destFile.exists {
+            try destFile.setContents("")
+        }
+
+        guard let writeHandle = NSFileHandle(forWritingAtPath: destFile.name) else {
+            throw FileError.FileNotWriteable(file: destFile.name)
+        }
+
+        readHandle.seekToFileOffset(UInt64(range.from))
+
+        let bufSize: Int64 = 1024 * 1024
+        var bytesLeft: Int64 = range.to - range.from + 1
+        var bytesReadTotal: Int64 = 0
+
+        repeat {
+            var readBytes: Int64 = bufSize
+            if bytesLeft < readBytes {
+                readBytes = bytesLeft
+            }
+            var didRead = 0
+            autoreleasepool {
+                let buf = readHandle.readDataOfLength(Int(readBytes))
+                didRead = buf.length
+                if buf.length > 0 {
+                    writeHandle.writeData(buf)
+                    bytesLeft -= Int64(buf.length)
+                    bytesReadTotal += Int64(buf.length)
+                }
+            }
+            if didRead == 0 {
+                break
+            }
+        } while bytesLeft > 0
+
+        if bytesReadTotal != expectedTotalBytes {
+            throw FileError.FileNotReadable(file: name)
+        }
+
+        readHandle.closeFile()
+        writeHandle.closeFile()
+    }
+
     public func truncate(size: Int64) throws {
         guard let handle = NSFileHandle(forWritingAtPath: name) else {
             throw FileError.FileNotFound(file: name)

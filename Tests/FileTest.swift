@@ -135,6 +135,42 @@ class FileTest: BaseTest {
         tmpDir.deleteIfExists()
     }
 
+    func testCopy() {
+        let tmpDir = try! Directory.createTemp()
+
+        let srcFile = tmpDir.file("srcFile")
+        try! srcFile.setContents("123")
+
+        let destFile = tmpDir.file("destFile")
+        try! srcFile.copy(destFile)
+
+        XCTAssertTrue(srcFile.exists)
+        XCTAssertTrue(destFile.exists)
+        XCTAssertEqual("123", try! destFile.getContents())
+
+        srcFile.deleteIfExists()
+        destFile.deleteIfExists()
+        tmpDir.deleteIfExists()
+    }
+
+    func testCopyRange() {
+        let tmpDir = try! Directory.createTemp()
+
+        let srcFile = tmpDir.file("srcFile")
+        try! srcFile.setContents(".HALLO123.")
+
+        let destFile = tmpDir.file("destFile")
+        try! srcFile.copy(destFile, range: (1, 8))
+
+        XCTAssertTrue(srcFile.exists)
+        XCTAssertTrue(destFile.exists)
+        XCTAssertEqual("HALLO123", try! destFile.getContents())
+
+        srcFile.deleteIfExists()
+        destFile.deleteIfExists()
+        tmpDir.deleteIfExists()
+    }
+
     func testAppend() {
         let destFile = try! File.createTemp()
         try! destFile.setContents("hallo123")
