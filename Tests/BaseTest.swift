@@ -22,7 +22,7 @@ class BaseTest: XCTestCase {
 
         while hasCalledBack.memory == false {
             if showProgress {
-                print(".", appendNewline: false)
+                print(".", terminator: "")
                 fflush(__stdoutp)
             }
             let loopUntil = NSDate(timeIntervalSinceNow: 0.1)

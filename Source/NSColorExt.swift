@@ -24,7 +24,7 @@ extension NSColor {
             return
         }
 
-        let index   = advance(rgba.startIndex, 1)
+        let index   = rgba.startIndex.advancedBy(1)
         let hex     = rgba.substringFromIndex(index)
         let scanner = NSScanner(string: hex)
         var hexValue: CUnsignedLongLong = 0
