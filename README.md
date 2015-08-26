@@ -2,14 +2,24 @@
 
 Collection of convenience classes and functions for Cocoa/Swift programming.
 
-### Usage
+*Warning: highly experimental*
 
-I use it this way: I add this repository as git submodule to an existing project and drag the files I need to my target. Usually there is no need to use all the files in a new project, I only pick the ones that are relevant for the particular project.
-
-### Idea
+Works with OSX and iOS. Requires XCode 7.0 Beta 6.
 
 The idea is to have a collection of helpful classes and functions with full unit test code converage that can be safely used accoss different projects.
 
-### Credits
+## Usage
+
+Add this repository as git submodule to any existing project and drag the files you need to your target.
+
+If you want to use [Carthage](https://github.com/Carthage/Carthage), add this your project's Cartfile
+
+`github "sebcode/SwiftHelperKit" "master"`
+
+## Features
+
+tbc.
+
+## Credits
 
 Sebastian Volland - http://github.com/sebcode
