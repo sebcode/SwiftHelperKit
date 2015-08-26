@@ -53,7 +53,13 @@ public class FilePath: CustomStringConvertible, Equatable {
     }
 
     public class func existing(name: String) throws -> Self {
-        let file = self.init(name: name)
+        let pname = NSString(string: name).UTF8String
+        let resolved = realpath(pname, nil)
+        guard let resolvedPath = String.fromCString(resolved) else {
+            throw FileError.FileNotFound(file: name)
+        }
+
+        let file = self.init(name: resolvedPath)
         try file.checkExists()
         return file
     }
@@ -161,6 +167,14 @@ public class File: FilePath {
         } catch {
             return 0
         }
+    }
+
+    public var dirName: String {
+        return NSString(string: name).stringByDeletingLastPathComponent
+    }
+
+    public var directory: Directory {
+        return Directory(name: dirName)
     }
 
     // MARK: Write operations

@@ -59,6 +59,17 @@ class FileTest: BaseTest {
     }
     #endif
 
+    func testDirectory() {
+        let tmpDir = try! Directory.createTemp()
+
+        let tmpFile = tmpDir.file("testfile.txt")
+
+        XCTAssertEqual(tmpFile.dirName, tmpDir.name)
+        XCTAssertEqual(tmpFile.directory, tmpDir)
+
+        tmpDir.deleteIfExists()
+    }
+
     func testCreateFromExisting() {
         let file = try! File.createTemp()
         let file2 = try! File.existing(file.name)
@@ -69,6 +80,18 @@ class FileTest: BaseTest {
             try File.existing(file.name)
             XCTFail()
         } catch { }
+    }
+
+    func testCreateFromExistingRealpath() {
+        let tmpFile = try! File.createTemp()
+
+        chdir(tmpFile.dirName)
+        let file = try! File.existing(tmpFile.baseName)
+
+        XCTAssertTrue(file.exists)
+        XCTAssertEqual(tmpFile.name, file.name)
+
+        tmpFile.deleteIfExists()
     }
 
     func testSetAndGetContents() {
