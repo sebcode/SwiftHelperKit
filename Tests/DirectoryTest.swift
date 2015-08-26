@@ -36,15 +36,15 @@ class DirectoryTest: BaseTest {
         exp3 += [ tmpDir.subDirectory("Hallo") ]
         exp3.forEach { try! $0.create() }
 
-        var ret = tmpDir.glob("*.txt")!.sort { $0.name < $1.name }
+        var ret = try! tmpDir.glob("*.txt")!.sort { $0.name < $1.name }
         XCTAssertTrue(exp1 == ret)
 
-        ret = tmpDir.glob("*.dat")!
+        ret = try! tmpDir.glob("*.dat")!
         XCTAssertTrue(exp2 == ret)
 
         var all = exp1 + exp2 + exp3
         all = all.sort { $0.name < $1.name }
-        ret = tmpDir.glob("*")!.sort { $0.name < $1.name }
+        ret = try! tmpDir.glob("*")!.sort { $0.name < $1.name }
         XCTAssertTrue(all == ret)
 
         exp1.forEach { $0.deleteIfExists() }

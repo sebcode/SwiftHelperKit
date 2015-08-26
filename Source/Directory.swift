@@ -79,12 +79,14 @@ public class Directory: FilePath {
         return targetFile
     }
 
-    public func glob(pattern: String) -> [FilePath]? {
+    public func glob(pattern: String) throws -> [FilePath]? {
         var globt = glob_t()
         let p = NSString(string: name).stringByAppendingPathComponent(pattern)
         let ret = Darwin.glob(p, GLOB_TILDE | GLOB_BRACE | GLOB_MARK, nil, &globt)
         defer { globfree(&globt) }
-        guard ret == 0 else { return nil }
+        guard ret == 0 else {
+            throw FileError.FileNotReadable(file: name)
+        }
 
         var result = [FilePath]()
 
