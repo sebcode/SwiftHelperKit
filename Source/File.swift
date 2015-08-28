@@ -101,6 +101,15 @@ public class FilePath: CustomStringConvertible, Equatable {
         }
     }
 
+    public var ctime: NSDate? {
+        do {
+            let attr: NSDictionary = try FilePath.manager.attributesOfItemAtPath(name)
+            return attr.fileCreationDate()
+        } catch {
+            return nil
+        }
+    }
+
     // MARK: Convenience functions
 
     public func nameWithoutExtension(ext: String = "") -> String {
