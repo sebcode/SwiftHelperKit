@@ -59,6 +59,26 @@ class FileTest: BaseTest {
     }
     #endif
 
+    func testProperties() {
+        let tmpDir = try! Directory.createTemp()
+        let tmpFile = tmpDir.file("testfile.txt")
+
+        XCTAssertEqual(tmpFile.name, tmpFile.description)
+        XCTAssertEqual("testfile", tmpFile.baseNameWithoutExtension)
+        XCTAssertEqual("txt", tmpFile.fileExtension)
+        XCTAssertEqual("testfile.txt", tmpFile.baseName)
+        XCTAssertEqual("testfile.txt", tmpFile.displayName)
+        XCTAssertEqual(tmpFile.name, tmpFile.url!.path)
+        XCTAssertTrue(tmpFile.mtime?.timeIntervalSinceNow <= 3)
+        XCTAssertTrue(tmpFile.ctime?.timeIntervalSinceNow <= 3)
+
+        tmpFile.deleteIfExists()
+        tmpDir.deleteIfExists()
+
+        XCTAssertNil(tmpFile.ctime)
+        XCTAssertNil(tmpFile.mtime)
+    }
+
     func testDirectory() {
         let tmpDir = try! Directory.createTemp()
 
@@ -206,25 +226,6 @@ class FileTest: BaseTest {
         XCTAssertEqual("hallo123destbytes", try! destFile.getContents())
         
         try! srcFile.delete()
-    }
-
-    func testUrl() {
-        let file = try! File.createTemp()
-        XCTAssertEqual(file.name, file.url!.path)
-        try! file.delete()
-    }
-
-    func testDisplayName() {
-        let file = File(name: "/tmp/Test123")
-        XCTAssertEqual("Test123", file.displayName)
-    }
-
-    func testMtime() {
-        let file = try! File.createTemp()
-        XCTAssertTrue(file.mtime!.timeIntervalSinceNow <= 3)
-        try! file.delete()
-
-        XCTAssertNil(file.mtime)
     }
 
     func testNameWithoutExtension() {

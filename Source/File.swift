@@ -78,6 +78,14 @@ public class FilePath: CustomStringConvertible, Equatable {
         return NSString(string: name).lastPathComponent
     }
 
+    public var baseNameWithoutExtension: String {
+        return NSString(string: baseName).stringByDeletingPathExtension
+    }
+
+    public var fileExtension: String {
+        return NSString(string: name).pathExtension
+    }
+
     public var exists: Bool {
         return FilePath.manager.fileExistsAtPath(name)
     }
