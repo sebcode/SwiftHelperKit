@@ -4,7 +4,7 @@ Collection of convenience classes and functions for Cocoa/Swift programming.
 
 *Warning: highly experimental*
 
-Works with OSX and iOS. Requires XCode 7.0 Beta 6.
+Requires XCode 7.0. Tested with OSX El Capitan and iOS 9.
 
 The idea is to have a collection of helpful classes and functions with full unit test code converage that can be safely used accoss different projects.
 
