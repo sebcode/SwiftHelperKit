@@ -39,6 +39,42 @@ public class Directory: FilePath {
         return Directory(name: subUrl!.path!)
     }
 
+    // MARK: Static Helper
+
+    public class func findCommonDirectory(directories: [Directory]) -> Directory? {
+        if directories.count == 0 {
+            return nil
+        }
+
+        if directories.count == 1 {
+            return directories[0]
+        }
+
+        var dirParts = [[String]]()
+        var commonParts = [String]()
+
+        for dir in directories {
+            let parts = dir.name.characters.split { $0 == "/" }.map { String($0) }
+            dirParts += [ parts ]
+        }
+
+        dirParts.sortInPlace { $0.count < $1.count }
+
+        guard let shortestDirParts = dirParts.first else { return nil }
+
+        outer: for (index, part) in shortestDirParts.enumerate() {
+            for parts in dirParts {
+                if part != parts[index] {
+                    break outer
+                }
+            }
+
+            commonParts += [ part ]
+        }
+
+        return Directory(name: "/" + commonParts.joinWithSeparator("/"))
+    }
+
     // MARK: File factories
 
     public func file(name: String) -> File {
@@ -103,6 +139,37 @@ public class Directory: FilePath {
             var isDir: ObjCBool = false
             if FilePath.manager.fileExistsAtPath(path, isDirectory: &isDir) {
                 result += [ isDir ? Directory(name: path) : File(name: path) ]
+            }
+        }
+
+        return result
+    }
+
+    public func files() -> [FilePath] {
+        let fileManager = NSFileManager.defaultManager()
+        guard let enumerator = fileManager.enumeratorAtPath(name) else {
+            return []
+        }
+
+        var result = [FilePath]()
+
+        while let element = enumerator.nextObject() as? String {
+            var isDir = false
+
+            do {
+                let dirUrl = NSURL(fileURLWithPath: file(element).name)
+                let properties = try dirUrl.resourceValuesForKeys([NSURLIsDirectoryKey])
+                if let isDirectory = properties[NSURLIsDirectoryKey] as? NSNumber {
+                    isDir = isDirectory.boolValue
+                }
+            } catch _ {
+                isDir = false
+            }
+
+            if isDir {
+                result += [ subDirectory(element) ]
+            } else {
+                result += [ file(element) ]
             }
         }
 

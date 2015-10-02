@@ -246,4 +246,12 @@ class FileTest: BaseTest {
         tmpDir.deleteIfExists()
     }
 
+    func testRelativeName() {
+        let baseDir = Directory(name: "/tmp")
+
+        XCTAssertEqual("wurst123", File(name: "/tmp/wurst123").relativeName(baseDir))
+        XCTAssertEqual("wurst123/asdf", File(name: "/tmp/wurst123/asdf").relativeName(baseDir))
+        XCTAssertEqual("/tmpx/wurst123/asdf", File(name: "/tmpx/wurst123/asdf").relativeName(baseDir))
+    }
+
 }

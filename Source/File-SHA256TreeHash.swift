@@ -37,6 +37,10 @@ extension File {
             }
 
             bytesRead = inputStream.read(&buf, maxLength: chunkSize)
+            if bytesRead < 0 {
+                throw FileError.FileNotReadable(file: name)
+            }
+
             totalBytesRead += bytesRead
             if bytesRead > 0 {
                 CC_SHA256(&buf, CC_LONG(bytesRead), &hash)

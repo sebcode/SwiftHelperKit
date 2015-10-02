@@ -18,6 +18,58 @@ class DirectoryTest: BaseTest {
         super.tearDown()
     }
 
+    func testFindCommonDirectory() {
+        var dirs: [Directory] = [
+            Directory(name: "/tmp/asdf/a/b/c/d/fewfewfewew"),
+            Directory(name: "/tmp/dev"),
+            Directory(name: "/tmp/Movies"),
+            Directory(name: "/tmp/Movies/bla"),
+        ]
+        XCTAssertEqual("/tmp", Directory.findCommonDirectory(dirs)!.name)
+
+        dirs = [
+            Directory(name: "/tmp/dev"),
+            Directory(name: "/"),
+        ]
+        XCTAssertEqual("/", Directory.findCommonDirectory(dirs)!.name)
+
+        dirs = [
+            Directory(name: "/tmp/wurst/spaten/bla"),
+            Directory(name: "/tmp/wurst/daten"),
+        ]
+        XCTAssertEqual("/tmp/wurst", Directory.findCommonDirectory(dirs)!.name)
+
+        dirs = []
+        XCTAssertNil(Directory.findCommonDirectory(dirs))
+
+        dirs = [
+            Directory(name: "/tmp/dev"),
+        ]
+        XCTAssertEqual("/tmp/dev", Directory.findCommonDirectory(dirs)!.name)
+    }
+
+    func testFiles() {
+        let tmpDir = try! Directory.createTemp()
+
+        var exp1 = [FilePath]()
+        exp1 += [ tmpDir.file("Test1.txt") ]
+        exp1 += [ tmpDir.file("Test2.txt") ]
+        exp1 += [ tmpDir.file("Test3.txt") ]
+        exp1 += [ tmpDir.subDirectory("Dir") ]
+        exp1 += [ tmpDir.file("Dir/SubTest.txt") ]
+        exp1 += [ tmpDir.subDirectory("Dir/Dir2") ]
+        exp1 += [ tmpDir.file("Dir/Dir2/SubTest2.txt") ]
+        exp1.forEach { try! $0.create() }
+        exp1 = exp1.sort { $0.name < $1.name }
+
+        let ret = tmpDir.files().sort { $0.name < $1.name }
+        XCTAssertTrue(exp1 == ret)
+
+        exp1.forEach { $0.deleteIfExists() }
+        tmpDir.deleteIfExists()
+        XCTAssertFalse(tmpDir.exists)
+    }
+
     func testGlob() {
         let tmpDir = try! Directory.createTemp()
 

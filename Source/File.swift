@@ -118,11 +118,40 @@ public class FilePath: CustomStringConvertible, Equatable {
         }
     }
 
+    public var isSymlink: Bool {
+        guard let dirUrl = url else {
+            return false
+        }
+
+        var isSymlink = false
+
+        do {
+            let properties = try dirUrl.resourceValuesForKeys([NSURLIsSymbolicLinkKey])
+            if let isSymlinkNumber = properties[NSURLIsSymbolicLinkKey] as? NSNumber {
+                isSymlink = isSymlinkNumber.boolValue
+            }
+        } catch _ {
+            isSymlink = false
+        }
+
+        return isSymlink
+    }
+
     // MARK: Convenience functions
 
     public func nameWithoutExtension(ext: String = "") -> String {
         if ext == "" || NSString(string: name).pathExtension == ext {
             return NSString(string: name).stringByDeletingPathExtension
+        }
+
+        return name
+    }
+
+    public func relativeName(baseDirectory: Directory) -> String {
+        if name.hasPrefix(baseDirectory.name + "/") {
+            if let range = baseDirectory.name.rangeOfString(baseDirectory.name) {
+                return name.substringFromIndex(range.endIndex).trim("/")
+            }
         }
 
         return name
