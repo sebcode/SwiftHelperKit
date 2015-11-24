@@ -335,6 +335,7 @@ public class File: FilePath {
         guard let data = NSString(string: string).dataUsingEncoding(NSUTF8StringEncoding) else {
             throw FileError.FileNotWriteable(file: name)
         }
+
         handle.seekToEndOfFile()
         handle.writeData(data)
         handle.closeFile()
@@ -343,9 +344,15 @@ public class File: FilePath {
     public func append(srcFile: File) throws {
         let outputStream = try getOutputStream(true)
         outputStream.open()
+        defer {
+            outputStream.close()
+        }
 
         let inputStream = try srcFile.getInputStream()
         inputStream.open()
+        defer {
+            inputStream.close()
+        }
 
         let bufSize = 1024 * 1024
         var buf = [UInt8](count: bufSize, repeatedValue: 0)
@@ -354,12 +361,11 @@ public class File: FilePath {
         repeat {
             bytesRead = inputStream.read(&buf, maxLength: bufSize)
             if bytesRead > 0 {
-                outputStream.write(buf, maxLength: bytesRead)
+                if outputStream.write(buf, maxLength: bytesRead) == -1 {
+                    throw FileError.FileNotWriteable(file: name)
+                }
             }
         } while bytesRead > 0
-
-        inputStream.close()
-        outputStream.close()
     }
 
     // MARK: Read operations

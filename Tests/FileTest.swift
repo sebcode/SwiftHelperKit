@@ -228,6 +228,43 @@ class FileTest: BaseTest {
         try! srcFile.delete()
     }
 
+    func testAppendFileNotWriteable() {
+        let tmpData = String(count: 1024 * 1024 * 15, repeatedValue: ("a" as Character))
+
+        let srcFile = try! File.createTemp()
+        try! srcFile.setContents(tmpData)
+        defer {
+            srcFile.deleteIfExists()
+        }
+
+        let destDir = Directory(name: "/Volumes/10MBTMP")
+        let destFile = destDir.file("tmp123")
+
+        do {
+            try destFile.append(srcFile)
+            defer {
+                destFile.deleteIfExists()
+            }
+            XCTFail()
+        } catch {}
+    }
+
+// XXX How to catch "NSFileHandleOperationException", "*** -[NSConcreteFileHandle writeData:]: No space left on device" ?
+//    func testAppendStringNotWriteable() {
+//        let tmpData = String(count: 1024 * 1024 * 15, repeatedValue: ("a" as Character))
+//
+//        let destDir = Directory(name: "/Volumes/10MBTMP")
+//        let destFile = destDir.file("tmp123")
+//
+//        do {
+//            try destFile.append(tmpData)
+//            defer {
+//                destFile.deleteIfExists()
+//            }
+//            XCTFail()
+//        } catch {}
+//    }
+
     func testNameWithoutExtension() {
         let tmpDir = try! Directory.createTemp()
 
