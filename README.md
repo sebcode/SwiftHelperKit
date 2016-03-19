@@ -1,10 +1,10 @@
 # SwiftHelperKit
 
+[![Build Status](https://travis-ci.org/sebcode/SwiftHelperKit.svg?branch=master)](https://travis-ci.org/sebcode/SwiftHelperKit)
+
 Collection of convenience classes and functions for Cocoa/Swift programming.
 
-*Warning: highly experimental*
-
-Requires XCode 7.0. Tested with OSX El Capitan and iOS 9.
+Requires XCode 7+. Tested with OSX El Capitan and iOS 9.
 
 The idea is to have a collection of helpful classes and functions with full unit test code converage that can be safely used accoss different projects.
 
