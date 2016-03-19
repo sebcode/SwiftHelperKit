@@ -119,22 +119,27 @@ public class FilePath: CustomStringConvertible, Equatable {
     }
 
     public var isSymlink: Bool {
-        guard let dirUrl = url else {
-            return false
-        }
-
-        var isSymlink = false
+        guard let dirUrl = url else { return false }
 
         do {
             let properties = try dirUrl.resourceValuesForKeys([NSURLIsSymbolicLinkKey])
-            if let isSymlinkNumber = properties[NSURLIsSymbolicLinkKey] as? NSNumber {
-                isSymlink = isSymlinkNumber.boolValue
-            }
+            guard let isSymlinkNumber = properties[NSURLIsSymbolicLinkKey] as? NSNumber else { return false }
+            return isSymlinkNumber.boolValue
         } catch _ {
-            isSymlink = false
+            return false
         }
+    }
 
-        return isSymlink
+    public var isDirectory: Bool {
+        guard let dirUrl = url else { return false }
+
+        do {
+            let properties = try dirUrl.resourceValuesForKeys([NSURLIsDirectoryKey])
+            guard let isDirNumber = properties[NSURLIsDirectoryKey] as? NSNumber else { return false }
+            return isDirNumber.boolValue
+        } catch _ {
+            return false
+        }
     }
 
     // MARK: Convenience functions

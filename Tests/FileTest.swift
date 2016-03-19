@@ -79,6 +79,48 @@ class FileTest: BaseTest {
         XCTAssertNil(tmpFile.mtime)
     }
 
+    #if os(OSX)
+    func testIsSymlink() {
+        XCTAssertFalse(File(name: "/tmp/doesnotexist").isSymlink)
+
+        let tmpDir = try! Directory.createTemp()
+
+        let tmpFile = tmpDir.file("testfile.txt")
+        try! tmpFile.setContents("Hallo123")
+        XCTAssertFalse(tmpFile.isSymlink)
+
+        let tmpLinkFile = tmpDir.file("tmplinkfile")
+
+        let task = NSTask()
+        task.launchPath = "/bin/ln"
+        task.arguments = [ "-s", tmpFile.name, tmpLinkFile.name ]
+        task.launch()
+        task.waitUntilExit()
+        XCTAssertEqual(0, task.terminationStatus)
+
+        XCTAssertTrue(tmpLinkFile.exists)
+        XCTAssertTrue(tmpLinkFile.isSymlink)
+
+        tmpFile.deleteIfExists()
+        tmpLinkFile.deleteIfExists()
+        tmpDir.deleteIfExists()
+    }
+    #endif
+
+    func testIsDirectory() {
+        let tmpDir = try! Directory.createTemp()
+        XCTAssertTrue(File(name: tmpDir.name).isDirectory)
+
+        let tmpFile = tmpDir.file("testfile.txt")
+        try! tmpFile.create()
+        XCTAssertFalse(tmpFile.isDirectory)
+        tmpFile.deleteIfExists()
+
+        XCTAssertFalse(File(name: "/tmp/doesnotexist").isDirectory)
+
+        tmpDir.deleteIfExists()
+    }
+
     func testDirectory() {
         let tmpDir = try! Directory.createTemp()
 
