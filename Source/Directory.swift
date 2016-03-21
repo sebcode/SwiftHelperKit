@@ -154,23 +154,13 @@ public class Directory: FilePath {
 
         var result = [FilePath]()
 
-        while let element = enumerator.nextObject() as? String {
-            var isDir = false
+        while let name = enumerator.nextObject() as? String {
+            let f = file(name)
 
-            do {
-                let dirUrl = NSURL(fileURLWithPath: file(element).name)
-                let properties = try dirUrl.resourceValuesForKeys([NSURLIsDirectoryKey])
-                if let isDirectory = properties[NSURLIsDirectoryKey] as? NSNumber {
-                    isDir = isDirectory.boolValue
-                }
-            } catch _ {
-                isDir = false
-            }
-
-            if isDir {
-                result += [ subDirectory(element) ]
+            if f.isDirectory {
+                result += [ subDirectory(name) ]
             } else {
-                result += [ file(element) ]
+                result += [ f ]
             }
         }
 
@@ -180,22 +170,7 @@ public class Directory: FilePath {
     // MARK: Convenience properties
 
     public override var exists: Bool {
-        guard let dirUrl = url else {
-            return false
-        }
-
-        var isDir = false
-
-        do {
-            let properties = try dirUrl.resourceValuesForKeys([NSURLIsDirectoryKey])
-            if let isDirectory = properties[NSURLIsDirectoryKey] as? NSNumber {
-                isDir = isDirectory.boolValue
-            }
-        } catch _ {
-            isDir = false
-        }
-
-        return isDir
+        return isDirectory
     }
 
     // MARK: Write operations
