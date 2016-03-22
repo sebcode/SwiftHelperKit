@@ -25,7 +25,7 @@ public class IniParser {
                     ret[currentSectionName] = currentSection
                     currentSection = [:]
                 }
-                currentSectionName = line.substringWithRange(Range<String.Index>(start: line.startIndex.advancedBy(1), end: line.endIndex.advancedBy(-1)))
+                currentSectionName = line.substringWithRange(line.startIndex.advancedBy(1)..<line.endIndex.advancedBy(-1))
             }
 
             if line != "" && currentSectionName != "" {

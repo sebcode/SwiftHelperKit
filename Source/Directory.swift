@@ -102,7 +102,8 @@ public class Directory: FilePath {
         var counter = 1
 
         while targetFile.exists {
-            let n = NSString(string: baseName).stringByDeletingPathExtension + " (\(++counter))"
+            counter += 1
+            let n = NSString(string: baseName).stringByDeletingPathExtension + " (\(counter))"
             let ext = NSString(string: baseName).pathExtension
             let newName = n + (ext == "" ? "" : ".") + ext + append
             targetFile = File(name: newName)

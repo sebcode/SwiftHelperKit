@@ -62,13 +62,13 @@ public class TreeHash {
         while prevLvlHashes.count > 1 {
             var len = prevLvlHashes.count / 2
             if prevLvlHashes.count % 2 != 0 {
-                len++
+                len += 1
             }
 
             var currLvlHashes = [NSData]()
 
             var j = 0
-            for var i = 0; i < prevLvlHashes.count; i = i + 2, j++ {
+            for i in 0.stride(to: prevLvlHashes.count, by: 2) {
                 if prevLvlHashes.count - i > 1 {
                     let firstPart = prevLvlHashes[i]
                     let secondPart = prevLvlHashes[i + 1]
@@ -82,6 +82,7 @@ public class TreeHash {
                 } else {
                     currLvlHashes.insert(prevLvlHashes[i], atIndex: j)
                 }
+                j += 1
             }
 
             prevLvlHashes = currLvlHashes

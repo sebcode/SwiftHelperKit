@@ -18,25 +18,33 @@ public extension String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: String(char)))
     }
 
-    // http://stackoverflow.com/questions/26501276/convert-string-to-hex-string-in-swift/26502285#26502285
-    public func dataFromHexString() -> NSData? {
-        let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<> ")).stringByReplacingOccurrencesOfString(" ", withString: "")
-
+    // Based on http://stackoverflow.com/a/17511588/503326
+    func dataFromHexString() -> NSData? {
+        let str = self
         let regex = try! NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
-        let range = NSMakeRange(0, trimmedString.characters.count)
-        let found = regex.firstMatchInString(trimmedString, options: .ReportProgress, range: range)
-        if found == nil || found?.range.location == NSNotFound || trimmedString.characters.count % 2 != 0 {
+        let range = NSMakeRange(0, str.characters.count)
+        let found = regex.firstMatchInString(str, options: .ReportProgress, range: range)
+        if found == nil || found?.range.location == NSNotFound || str.characters.count % 2 != 0 {
             return nil
         }
 
-        let data = NSMutableData(capacity: trimmedString.characters.count / 2)
+        let _str = NSString(string: str)
+        let len = _str.length
+        let data = NSMutableData(capacity: len / 2)
 
-        for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = index.successor().successor() {
-            let byteString = trimmedString.substringWithRange(Range<String.Index>(start: index, end: index.successor().successor()))
-            let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
-            data?.appendBytes([num] as [UInt8], length: 1)
+        var i = 0
+        var byteChars: [CChar] = [0, 0, 0]
+        var wholeByte: UInt32 = 0
+
+        while i < len {
+            byteChars[0] = _str.substringWithRange(NSMakeRange(i, 1)).cStringUsingEncoding(NSUTF8StringEncoding)![0]
+            i += 1
+            byteChars[1] = _str.substringWithRange(NSMakeRange(i, 1)).cStringUsingEncoding(NSUTF8StringEncoding)![0]
+            i += 1
+            wholeByte = UInt32(strtoul(byteChars, nil, 16))
+            data?.appendBytes(&wholeByte, length: 1)
         }
-
+        
         return data
     }
 
