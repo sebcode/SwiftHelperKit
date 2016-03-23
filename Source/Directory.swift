@@ -169,6 +169,11 @@ public class Directory: FilePath {
 
     // MARK: Convenience properties
 
+    public var parentDirectory: Directory {
+        guard let parentUrl = url?.URLByDeletingLastPathComponent else { return Directory(name: "/") }
+        return Directory(name: parentUrl.path!)
+    }
+
     public override var exists: Bool {
         return isDirectory
     }
