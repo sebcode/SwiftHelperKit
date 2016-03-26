@@ -34,6 +34,10 @@ public func ==(lhs: FilePath, rhs: FilePath) -> Bool {
     return lhs.name == rhs.name
 }
 
+/**
+    Common base class for `File` and `Directory`.
+    Should not be used directly.
+*/
 public class FilePath: CustomStringConvertible, Equatable {
 
     static let manager = NSFileManager.defaultManager()
@@ -207,6 +211,9 @@ public class FilePath: CustomStringConvertible, Equatable {
 
 // MARK: File class
 
+/**
+    `File` is a wrapper class for a file system file.
+*/
 public class File: FilePath {
 
     // MARK: Convenience properties

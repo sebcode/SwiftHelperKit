@@ -8,32 +8,50 @@
 
 import Foundation
 
-// MARK: Directory class
-
+/**
+    `Directory` is a wrapper class for a file system directory.
+*/
 public class Directory: FilePath {
 
     // MARK: Factories
 
+    /// Returns the application support directory relative to the user's home directory
+    /// (`~/Library/Application Support`).
+    ///
+    /// - returns: `Directory` instance.
     public class func applicationSupportDirectory() -> Directory {
         let urls = Directory.manager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
         let dirUrl = urls[urls.count - 1] as NSURL
         return Directory(name: dirUrl.path!)
     }
 
+    /// Returns the user's `Downloads` directory.
+    ///
+    /// - returns: `Directory` instance.
     public class func downloadsDirectory() -> Directory {
         let urls = Directory.manager.URLsForDirectory(.DownloadsDirectory, inDomains: .UserDomainMask)
         let dirUrl = urls[urls.count - 1] as NSURL
         return Directory(name: dirUrl.path!)
     }
 
+    /// Returns the user's home directory (e.g. `/Users/peter`).
+    ///
+    /// - returns: `Directory` instance.
     public class func homeDirectory() -> Directory {
         return Directory(name: NSHomeDirectory())
     }
 
+    /// Returns the user's directory for temporary files.
+    ///
+    /// - returns: `Directory` instance.
     public class func tempDirectory() -> Directory {
         return Directory(name: NSTemporaryDirectory())
     }
 
+    /// Returns a subdirectory relative to this directory.
+    ///
+    /// - parameter name: Name of the subdirectory.
+    /// - returns: `Directory` instance.
     public func subDirectory(name: String) -> Directory {
         let subUrl = url?.URLByAppendingPathComponent(name)
         return Directory(name: subUrl!.path!)
@@ -41,6 +59,13 @@ public class Directory: FilePath {
 
     // MARK: Static Helper
 
+    /// Finds the common directory for the list of directories provided.
+    ///
+    /// Example: The common directory for `/tmp/test1` and `/tmp/test2`
+    /// is `/tmp`.
+    ///
+    /// - parameter directories: Array of `Directory` instances.
+    /// - returns: `Directory` instance of `nil` on failure.
     public class func findCommonDirectory(directories: [Directory]) -> Directory? {
         if directories.count == 0 {
             return nil
@@ -77,6 +102,11 @@ public class Directory: FilePath {
 
     // MARK: File factories
 
+    /// Returns a new instance of `File` for the given relative file name
+    /// for this directory.
+    ///
+    /// - parameter name: Relative file name.
+    /// - returns: A new `File` instance.
     public func file(name: String) -> File {
         let subUrl = url?.URLByAppendingPathComponent(name)
         return File(name: subUrl!.path!)
@@ -116,6 +146,11 @@ public class Directory: FilePath {
         return targetFile
     }
 
+    /// Wrapper for the C-function glob(3). Finds files and directories based
+    /// on a pattern relative to this directory. Accepts patterns like `*.png`.
+    ///
+    /// - parameter pattern: Glob-pattern.
+    /// - returns: Array of `File` and `Directory` instances or `nil` on failure.
     public func glob(pattern: String) throws -> [FilePath]? {
         var globt = glob_t()
         let p = NSString(string: name).stringByAppendingPathComponent(pattern)
@@ -146,6 +181,10 @@ public class Directory: FilePath {
         return result
     }
 
+    /// Finds all files and directories recursivly relative to this
+    /// directory.
+    ///
+    /// - returns: Array of `File` and `Directory` instances.
     public func files() -> [FilePath] {
         let fileManager = NSFileManager.defaultManager()
         guard let enumerator = fileManager.enumeratorAtPath(name) else {
@@ -169,12 +208,17 @@ public class Directory: FilePath {
 
     // MARK: Convenience properties
 
+    /// Checks if this is a existing directory.
+    ///
+    /// - returns: `true` if directory exists.
     public override var exists: Bool {
         return isDirectory
     }
 
     // MARK: Write operations
 
+    /// Attemts to create this directory (with intermediate directories).
+    /// Throws `FileError.FileNotWritable` on failure.
     public override func create() throws {
         guard let dirUrl = url else {
             throw FileError.FileNotWriteable(file: name)
@@ -187,7 +231,10 @@ public class Directory: FilePath {
         }
     }
 
-    /// Create a new empty temporary file
+    /// Creates a new empty temporary file relative to this directory.
+    ///
+    /// - parameter prefix: Prefix for the temporary filename.
+    /// - returns: New `File` instance for the temporary file.
     public func createTempFile(prefix: String = "tmp") throws -> File {
         let newFile = file("\(prefix)-\(NSUUID().UUIDString)")
         try newFile.create()
