@@ -14,7 +14,7 @@
 		96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B331B7E555700567CA3 /* File-NSStream.swift */; };
 		96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B341B7E555700567CA3 /* File-SHA256.swift */; };
 		96286B3C1B7E555700567CA3 /* File-Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B351B7E555700567CA3 /* File-Temp.swift */; };
-		96286B3D1B7E555700567CA3 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* File.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96286B3D1B7E555700567CA3 /* SwiftHelperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* SwiftHelperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96286B3E1B7E555700567CA3 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B371B7E555700567CA3 /* File.swift */; };
 		96286B621B7E56E200567CA3 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B5C1B7E56E200567CA3 /* BaseTest.swift */; };
 		96286B641B7E56E200567CA3 /* FileTest-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B5E1B7E56E200567CA3 /* FileTest-NSStream.swift */; };
@@ -63,7 +63,7 @@
 		96D7B08A1B85FDBD00D2A32E /* NSDateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1F1B7F6B6100CE2BB1 /* NSDateExt.swift */; };
 		96D7B08B1B85FDBD00D2A32E /* NSTimeIntervalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1A1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift */; };
 		96D7B08C1B85FDBD00D2A32E /* UInt8Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */; };
-		96D7B08E1B85FDC400D2A32E /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* File.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D7B08E1B85FDC400D2A32E /* SwiftHelperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* SwiftHelperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96EA30911B7F6510005F8887 /* File-IniReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA30901B7F6510005F8887 /* File-IniReader.swift */; };
 /* End PBXBuildFile section */
 
@@ -113,7 +113,7 @@
 		96286B331B7E555700567CA3 /* File-NSStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-NSStream.swift"; path = "Source/File-NSStream.swift"; sourceTree = SOURCE_ROOT; };
 		96286B341B7E555700567CA3 /* File-SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-SHA256.swift"; path = "Source/File-SHA256.swift"; sourceTree = SOURCE_ROOT; };
 		96286B351B7E555700567CA3 /* File-Temp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-Temp.swift"; path = "Source/File-Temp.swift"; sourceTree = SOURCE_ROOT; };
-		96286B361B7E555700567CA3 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.h; path = Source/File.h; sourceTree = SOURCE_ROOT; };
+		96286B361B7E555700567CA3 /* SwiftHelperKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftHelperKit.h; path = Source/SwiftHelperKit.h; sourceTree = SOURCE_ROOT; };
 		96286B371B7E555700567CA3 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = File.swift; path = Source/File.swift; sourceTree = SOURCE_ROOT; };
 		96286B381B7E555700567CA3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = SOURCE_ROOT; };
 		96286B411B7E55AD00567CA3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -244,7 +244,7 @@
 		96286B401B7E556800567CA3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				96286B361B7E555700567CA3 /* File.h */,
+				96286B361B7E555700567CA3 /* SwiftHelperKit.h */,
 				96286B381B7E555700567CA3 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -265,7 +265,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96286B3D1B7E555700567CA3 /* File.h in Headers */,
+				96286B3D1B7E555700567CA3 /* SwiftHelperKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +273,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96D7B08E1B85FDC400D2A32E /* File.h in Headers */,
+				96D7B08E1B85FDC400D2A32E /* SwiftHelperKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
