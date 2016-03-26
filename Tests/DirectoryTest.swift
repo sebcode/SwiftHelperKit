@@ -18,6 +18,26 @@ class DirectoryTest: BaseTest {
         super.tearDown()
     }
 
+    func testParentDirectory() {
+        var testDir = Directory(name: "/tmp")
+        XCTAssertEqual("/", testDir.parentDirectory.name)
+
+        testDir = Directory(name: "/notexists")
+        XCTAssertEqual("/", testDir.parentDirectory.name)
+
+        testDir = Directory(name: "/")
+        XCTAssertEqual("/", testDir.parentDirectory.name)
+
+        testDir = Directory(name: "")
+        XCTAssertEqual("/", testDir.parentDirectory.name)
+
+        testDir = Directory(name: "/tmp/what/ever/")
+        XCTAssertEqual("/tmp/what", testDir.parentDirectory.name)
+
+        testDir = Directory(name: "/tmp/what/ever")
+        XCTAssertEqual("/tmp/what", testDir.parentDirectory.name)
+    }
+
     func testFindCommonDirectory() {
         var dirs: [Directory] = [
             Directory(name: "/tmp/asdf/a/b/c/d/fewfewfewew"),

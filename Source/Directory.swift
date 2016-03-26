@@ -208,6 +208,14 @@ public class Directory: FilePath {
 
     // MARK: Convenience properties
 
+    /// Returns the parent directory for this directory.
+    ///
+    /// - returns: `Directory` instance.
+    public var parentDirectory: Directory {
+        guard let parentUrl = url?.URLByDeletingLastPathComponent else { return Directory(name: "/") }
+        return Directory(name: parentUrl.path!)
+    }
+
     /// Checks if this is a existing directory.
     ///
     /// - returns: `true` if directory exists.
