@@ -11,6 +11,10 @@
 		96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FAD1B8640A50097C61E /* DirectoryTest.swift */; };
 		96071FB21B8641F90097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
 		96071FB31B86421C0097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
+		961A84011D34140800423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84001D34140800423B25 /* CommonCrypto.framework */; };
+		961A84041D34142B00423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84031D34142B00423B25 /* CommonCrypto.framework */; };
+		961A840B1D341B1C00423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84001D34140800423B25 /* CommonCrypto.framework */; };
+		961A840C1D341B2100423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84031D34142B00423B25 /* CommonCrypto.framework */; };
 		96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B331B7E555700567CA3 /* File-NSStream.swift */; };
 		96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B341B7E555700567CA3 /* File-SHA256.swift */; };
 		96286B3C1B7E555700567CA3 /* File-Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B351B7E555700567CA3 /* File-Temp.swift */; };
@@ -108,6 +112,8 @@
 /* Begin PBXFileReference section */
 		96071FAD1B8640A50097C61E /* DirectoryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryTest.swift; sourceTree = "<group>"; };
 		96071FB11B8641F90097C61E /* Directory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
+		961A84001D34140800423B25 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
+		961A84031D34142B00423B25 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/iOS/CommonCrypto.framework; sourceTree = "<group>"; };
 		96286B181B7E54C200567CA3 /* SwiftHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B221B7E54C200567CA3 /* SwiftHelperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftHelperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B331B7E555700567CA3 /* File-NSStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-NSStream.swift"; path = "Source/File-NSStream.swift"; sourceTree = SOURCE_ROOT; };
@@ -149,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961A84011D34140800423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961A840B1D341B1C00423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961A840C1D341B2100423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,17 +179,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961A84041D34142B00423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		961A84021D34140C00423B25 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				961A84031D34142B00423B25 /* CommonCrypto.framework */,
+				961A84001D34140800423B25 /* CommonCrypto.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		96286B0E1B7E54C200567CA3 = {
 			isa = PBXGroup;
 			children = (
 				96286B1A1B7E54C200567CA3 /* Source */,
 				96286B261B7E54C200567CA3 /* Tests */,
+				961A84021D34140C00423B25 /* Frameworks */,
 				96286B191B7E54C200567CA3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -344,6 +364,7 @@
 				96D7B0711B85FD1A00D2A32E /* Frameworks */,
 				96D7B0721B85FD1A00D2A32E /* Headers */,
 				96D7B0731B85FD1A00D2A32E /* Resources */,
+				961A84051D34144F00423B25 /* Run Carthage */,
 			);
 			buildRules = (
 			);
@@ -428,6 +449,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		961A84051D34144F00423B25 /* Run Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Carthage";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		96286B131B7E54C200567CA3 /* Sources */ = {
@@ -626,7 +664,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -648,7 +689,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -664,9 +708,12 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -679,9 +726,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKitTests;
 			};
@@ -692,10 +742,13 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = seb.SwiftHelperKitiOSTests;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SDKROOT = iphoneos;
@@ -707,10 +760,13 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = seb.SwiftHelperKitiOSTests;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SDKROOT = iphoneos;
@@ -727,7 +783,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -749,7 +808,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

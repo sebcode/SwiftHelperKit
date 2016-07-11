@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/Crypto"]
+	path = Carthage/Checkouts/Crypto
+	url = https://github.com/soffes/Crypto.git
