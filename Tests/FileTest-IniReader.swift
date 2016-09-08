@@ -22,7 +22,8 @@ class FileTestIniReader: BaseTest {
         let tmpFile = try! File.createTemp()
         try! tmpFile.setContents("[a]\nb=c")
 
-        XCTAssertTrue(try! tmpFile.readIni() == ["a" : ["b" : "c"]])
+        let ret = try! tmpFile.readIni()
+        XCTAssertTrue(ret["a"]! == ["b" : "c"])
         try! tmpFile.delete()
     }
 

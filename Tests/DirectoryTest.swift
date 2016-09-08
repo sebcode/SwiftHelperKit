@@ -28,9 +28,6 @@ class DirectoryTest: BaseTest {
         testDir = Directory(name: "/")
         XCTAssertEqual("/", testDir.parentDirectory.name)
 
-        testDir = Directory(name: "")
-        XCTAssertEqual("/", testDir.parentDirectory.name)
-
         testDir = Directory(name: "/tmp/what/ever/")
         XCTAssertEqual("/tmp/what", testDir.parentDirectory.name)
 
@@ -80,13 +77,13 @@ class DirectoryTest: BaseTest {
         exp1 += [ tmpDir.subDirectory("Dir/Dir2") ]
         exp1 += [ tmpDir.file("Dir/Dir2/SubTest2.txt") ]
         exp1.forEach { try! $0.create() }
-        exp1 = exp1.sort { $0.name < $1.name }
+        exp1 = exp1.sorted { $0.name < $1.name }
 
-        let ret = tmpDir.files().sort { $0.name < $1.name }
+        let ret = tmpDir.files().sorted { $0.name < $1.name }
         XCTAssertTrue(exp1 == ret)
 
-        exp1.forEach { $0.deleteIfExists() }
-        tmpDir.deleteIfExists()
+        exp1.forEach { _ = $0.deleteIfExists() }
+        _ = tmpDir.deleteIfExists()
         XCTAssertFalse(tmpDir.exists)
     }
 
@@ -98,7 +95,7 @@ class DirectoryTest: BaseTest {
         exp1 += [ tmpDir.file("Test2.txt") ]
         exp1 += [ tmpDir.file("Test3.txt") ]
         exp1.forEach { try! $0.create() }
-        exp1 = exp1.sort { $0.name < $1.name }
+        exp1 = exp1.sorted { $0.name < $1.name }
 
         var exp2 = [FilePath]()
         exp2 += [ tmpDir.file("Bla.dat") ]
@@ -108,21 +105,21 @@ class DirectoryTest: BaseTest {
         exp3 += [ tmpDir.subDirectory("Hallo") ]
         exp3.forEach { try! $0.create() }
 
-        var ret = try! tmpDir.glob("*.txt")!.sort { $0.name < $1.name }
+        var ret = try! tmpDir.glob("*.txt")!.sorted { $0.name < $1.name }
         XCTAssertTrue(exp1 == ret)
 
         ret = try! tmpDir.glob("*.dat")!
         XCTAssertTrue(exp2 == ret)
 
         var all = exp1 + exp2 + exp3
-        all = all.sort { $0.name < $1.name }
-        ret = try! tmpDir.glob("*")!.sort { $0.name < $1.name }
+        all = all.sorted { $0.name < $1.name }
+        ret = try! tmpDir.glob("*")!.sorted { $0.name < $1.name }
         XCTAssertTrue(all == ret)
 
-        exp1.forEach { $0.deleteIfExists() }
-        exp2.forEach { $0.deleteIfExists() }
-        exp3.forEach { $0.deleteIfExists() }
-        tmpDir.deleteIfExists()
+        exp1.forEach { _ = $0.deleteIfExists() }
+        exp2.forEach { _ = $0.deleteIfExists() }
+        exp3.forEach { _ = $0.deleteIfExists() }
+        _ = tmpDir.deleteIfExists()
         XCTAssertFalse(tmpDir.exists)
     }
 
@@ -133,8 +130,8 @@ class DirectoryTest: BaseTest {
 
         XCTAssertTrue(tmpFile.name.hasPrefix(tmpDir.name))
 
-        tmpFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testNextNewFile() {
@@ -169,7 +166,7 @@ class DirectoryTest: BaseTest {
         try! newFile.create()
         tmpFiles += [ newFile ]
 
-        tmpDir.file("testfile (3).tmp").deleteIfExists()
+        _ = tmpDir.file("testfile (3).tmp").deleteIfExists()
 
         newFile = tmpDir.nextNewFile("testfile.tmp")!
         XCTAssertEqual(tmpDir.file("testfile (3).tmp").name, newFile.name)
@@ -234,8 +231,8 @@ class DirectoryTest: BaseTest {
         tmpFiles += [ newFile ]
 
         // Cleanup
-        tmpFiles.forEach { $0.deleteIfExists() }
-        tmpDir.deleteIfExists()
+        tmpFiles.forEach { _ = $0.deleteIfExists() }
+        _ = tmpDir.deleteIfExists()
         XCTAssertFalse(tmpDir.exists)
     }
 

@@ -29,18 +29,18 @@ class FileTest: BaseTest {
             XCTFail()
         } catch { }
 
-        file.deleteIfExists()
+        _ = file.deleteIfExists()
         try! file.create()
         XCTAssertTrue(file.exists)
         try! file.delete()
 
         do {
-            try File.create("")
+            _ = try File.create("")
             XCTFail()
         } catch { }
 
         do {
-            try File.create("/tmp")
+            _ = try File.create("/tmp")
             XCTFail()
         } catch { }
     }
@@ -54,8 +54,8 @@ class FileTest: BaseTest {
         XCTAssertFalse(tmpFile.exists)
         XCTAssertTrue(trashedFile!.exists)
 
-        XCTAssertTrue(trashedFile!.name.rangeOfString(".Trash") != nil)
-        trashedFile!.deleteIfExists()
+        XCTAssertTrue(trashedFile!.name.contains(".Trash"))
+        _ = trashedFile!.deleteIfExists()
     }
     #endif
 
@@ -69,11 +69,11 @@ class FileTest: BaseTest {
         XCTAssertEqual("testfile.txt", tmpFile.baseName)
         XCTAssertEqual("testfile.txt", tmpFile.displayName)
         XCTAssertEqual(tmpFile.name, tmpFile.url!.path)
-        XCTAssertTrue(tmpFile.mtime?.timeIntervalSinceNow <= 3)
-        XCTAssertTrue(tmpFile.ctime?.timeIntervalSinceNow <= 3)
+        XCTAssertTrue((tmpFile.mtime?.timeIntervalSinceNow ?? 0) <= 3)
+        XCTAssertTrue((tmpFile.ctime?.timeIntervalSinceNow ?? 0) <= 3)
 
-        tmpFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
 
         XCTAssertNil(tmpFile.ctime)
         XCTAssertNil(tmpFile.mtime)
@@ -91,7 +91,7 @@ class FileTest: BaseTest {
 
         let tmpLinkFile = tmpDir.file("tmplinkfile")
 
-        let task = NSTask()
+        let task = Process()
         task.launchPath = "/bin/ln"
         task.arguments = [ "-s", tmpFile.name, tmpLinkFile.name ]
         task.launch()
@@ -101,9 +101,9 @@ class FileTest: BaseTest {
         XCTAssertTrue(tmpLinkFile.exists)
         XCTAssertTrue(tmpLinkFile.isSymlink)
 
-        tmpFile.deleteIfExists()
-        tmpLinkFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
+        _ = tmpLinkFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
     #endif
 
@@ -114,11 +114,11 @@ class FileTest: BaseTest {
         let tmpFile = tmpDir.file("testfile.txt")
         try! tmpFile.create()
         XCTAssertFalse(tmpFile.isDirectory)
-        tmpFile.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
 
         XCTAssertFalse(File(name: "/tmp/doesnotexist").isDirectory)
 
-        tmpDir.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testDirectory() {
@@ -129,7 +129,7 @@ class FileTest: BaseTest {
         XCTAssertEqual(tmpFile.dirName, tmpDir.name)
         XCTAssertEqual(tmpFile.directory, tmpDir)
 
-        tmpDir.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testCreateFromExisting() {
@@ -139,7 +139,7 @@ class FileTest: BaseTest {
         try! file.delete()
 
         do {
-            try File.existing(file.name)
+            _ = try File.existing(file.name)
             XCTFail()
         } catch { }
     }
@@ -153,7 +153,7 @@ class FileTest: BaseTest {
         XCTAssertTrue(file.exists)
         XCTAssertEqual(tmpFile.name, file.name)
 
-        tmpFile.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
     }
 
     func testSetAndGetContents() {
@@ -170,7 +170,7 @@ class FileTest: BaseTest {
         XCTAssertFalse(file.exists)
         XCTAssertEqual(0, file.size)
         do {
-            try file.getContents()
+            _ = try file.getContents()
             XCTFail()
         } catch { }
     }
@@ -216,8 +216,8 @@ class FileTest: BaseTest {
         XCTAssertTrue(destFile.exists)
         XCTAssertEqual("123", try! destFile.getContents())
 
-        destFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = destFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testCopy() {
@@ -233,9 +233,9 @@ class FileTest: BaseTest {
         XCTAssertTrue(destFile.exists)
         XCTAssertEqual("123", try! destFile.getContents())
 
-        srcFile.deleteIfExists()
-        destFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = srcFile.deleteIfExists()
+        _ = destFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testCopyRange() {
@@ -251,9 +251,9 @@ class FileTest: BaseTest {
         XCTAssertTrue(destFile.exists)
         XCTAssertEqual("HALLO123", try! destFile.getContents())
 
-        srcFile.deleteIfExists()
-        destFile.deleteIfExists()
-        tmpDir.deleteIfExists()
+        _ = srcFile.deleteIfExists()
+        _ = destFile.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testAppend() {
@@ -271,12 +271,12 @@ class FileTest: BaseTest {
     }
 
     func testAppendFileNotWriteable() {
-        let tmpData = String(count: 1024 * 1024 * 15, repeatedValue: ("a" as Character))
+        let tmpData = String(repeating: String(("a" as Character)), count: 1024 * 1024 * 15)
 
         let srcFile = try! File.createTemp()
         try! srcFile.setContents(tmpData)
         defer {
-            srcFile.deleteIfExists()
+            _ = srcFile.deleteIfExists()
         }
 
         let destDir = Directory(name: "/Volumes/10MBTMP")
@@ -285,7 +285,7 @@ class FileTest: BaseTest {
         do {
             try destFile.append(srcFile)
             defer {
-                destFile.deleteIfExists()
+                _ = destFile.deleteIfExists()
             }
             XCTFail()
         } catch {}
@@ -314,15 +314,15 @@ class FileTest: BaseTest {
         XCTAssertEqual(tmpDir.file("Hallo").name, tmpFile.nameWithoutExtension())
         XCTAssertEqual(tmpDir.file("Hallo").name, tmpFile.nameWithoutExtension("txt"))
         XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension("part"))
-        tmpFile.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
 
         tmpFile = tmpDir.file("Hallo.txt.txt")
         XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension())
         XCTAssertEqual(tmpDir.file("Hallo.txt").name, tmpFile.nameWithoutExtension("txt"))
         XCTAssertEqual(tmpDir.file("Hallo.txt.txt").name, tmpFile.nameWithoutExtension("part"))
-        tmpFile.deleteIfExists()
+        _ = tmpFile.deleteIfExists()
 
-        tmpDir.deleteIfExists()
+        _ = tmpDir.deleteIfExists()
     }
 
     func testRelativeName() {

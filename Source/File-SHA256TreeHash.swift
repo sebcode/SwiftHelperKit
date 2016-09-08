@@ -12,20 +12,20 @@ import CommonCrypto
 
 extension File {
 
-    public func getChunkSHA256Hashes(chunkSize: Int, progress: ((percentDone: Int) -> Bool)? = nil) throws -> [NSData] {
+    public func getChunkSHA256Hashes(_ chunkSize: Int, progress: ((_ percentDone: Int) -> Bool)? = nil) throws -> [Data] {
         let fileSize = size
-        var hash: [UInt8] = Array(count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
 
         guard fileSize > 0 else {
             CC_SHA256(nil, 0, &hash);
-            let hashData = NSData(bytes: hash, length: Int(CC_SHA256_DIGEST_LENGTH))
+            let hashData = Data(bytes: hash, count: Int(CC_SHA256_DIGEST_LENGTH))
             return [ hashData ]
         }
 
         let inputStream = try getInputStream()
-        var result = [NSData]()
+        var result = [Data]()
 
-        var buf = [UInt8](count: chunkSize, repeatedValue: 0)
+        var buf = [UInt8](repeating: 0, count: chunkSize)
         inputStream.open()
 
         var bytesRead = 0
@@ -33,18 +33,18 @@ extension File {
         repeat {
             if progress != nil {
                 let percentDone: Float = (Float(totalBytesRead) / Float(fileSize)) * 100.0
-                if progress!(percentDone: Int(percentDone)) == false { return [] }
+                if progress!(Int(percentDone)) == false { return [] }
             }
 
             bytesRead = inputStream.read(&buf, maxLength: chunkSize)
             if bytesRead < 0 {
-                throw FileError.FileNotReadable(file: name)
+                throw FileError.fileNotReadable(file: name)
             }
 
             totalBytesRead += bytesRead
             if bytesRead > 0 {
                 CC_SHA256(&buf, CC_LONG(bytesRead), &hash)
-                let hashData = NSData(bytes: hash, length: Int(CC_SHA256_DIGEST_LENGTH))
+                let hashData = Data(bytes: hash, count: Int(CC_SHA256_DIGEST_LENGTH))
                 result.append(hashData)
             }
         } while bytesRead > 0
@@ -54,9 +54,9 @@ extension File {
 
 }
 
-public class TreeHash {
+open class TreeHash {
 
-    public class func computeSHA256TreeHash(hashes: [NSData]) -> String {
+    open class func computeSHA256TreeHash(_ hashes: [Data]) -> String {
         var prevLvlHashes = hashes
 
         while prevLvlHashes.count > 1 {
@@ -65,22 +65,22 @@ public class TreeHash {
                 len += 1
             }
 
-            var currLvlHashes = [NSData]()
+            var currLvlHashes = [Data]()
 
             var j = 0
-            for i in 0.stride(to: prevLvlHashes.count, by: 2) {
+            for i in stride(from: 0, to: prevLvlHashes.count, by: 2) {
                 if prevLvlHashes.count - i > 1 {
                     let firstPart = prevLvlHashes[i]
                     let secondPart = prevLvlHashes[i + 1]
                     let concatenation = NSMutableData()
-                    concatenation.appendData(firstPart)
-                    concatenation.appendData(secondPart)
-                    var hash: [UInt8] = Array(count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
+                    concatenation.append(firstPart)
+                    concatenation.append(secondPart)
+                    var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
                     CC_SHA256(concatenation.bytes, CC_LONG(concatenation.length), &hash)
-                    let hashData = NSData(bytes: hash, length: Int(CC_SHA256_DIGEST_LENGTH))
-                    currLvlHashes.insert(hashData, atIndex: j)
+                    let hashData = Data(bytes: hash, count: Int(CC_SHA256_DIGEST_LENGTH))
+                    currLvlHashes.insert(hashData, at: j)
                 } else {
-                    currLvlHashes.insert(prevLvlHashes[i], atIndex: j)
+                    currLvlHashes.insert(prevLvlHashes[i], at: j)
                 }
                 j += 1
             }

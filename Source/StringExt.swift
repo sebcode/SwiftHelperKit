@@ -11,19 +11,19 @@ import Foundation
 public extension String {
 
     public func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
-    public func trim(char: Character) -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: String(char)))
+    public func trim(_ char: Character) -> String {
+        return self.trimmingCharacters(in: CharacterSet(charactersIn: String(char)))
     }
 
     // Based on http://stackoverflow.com/a/17511588/503326
-    func dataFromHexString() -> NSData? {
+    func dataFromHexString() -> Data? {
         let str = self
-        let regex = try! NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+        let regex = try! NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
         let range = NSMakeRange(0, str.characters.count)
-        let found = regex.firstMatchInString(str, options: .ReportProgress, range: range)
+        let found = regex.firstMatch(in: str, options: .reportProgress, range: range)
         if found == nil || found?.range.location == NSNotFound || str.characters.count % 2 != 0 {
             return nil
         }
@@ -37,15 +37,15 @@ public extension String {
         var wholeByte: UInt32 = 0
 
         while i < len {
-            byteChars[0] = _str.substringWithRange(NSMakeRange(i, 1)).cStringUsingEncoding(NSUTF8StringEncoding)![0]
+            byteChars[0] = _str.substring(with: NSMakeRange(i, 1)).cString(using: String.Encoding.utf8)![0]
             i += 1
-            byteChars[1] = _str.substringWithRange(NSMakeRange(i, 1)).cStringUsingEncoding(NSUTF8StringEncoding)![0]
+            byteChars[1] = _str.substring(with: NSMakeRange(i, 1)).cString(using: String.Encoding.utf8)![0]
             i += 1
             wholeByte = UInt32(strtoul(byteChars, nil, 16))
-            data?.appendBytes(&wholeByte, length: 1)
+            data?.append(&wholeByte, length: 1)
         }
         
-        return data
+        return data as Data?
     }
 
 }

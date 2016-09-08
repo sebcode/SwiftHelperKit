@@ -9,20 +9,20 @@ import Foundation
 
 // MARK: Error types
 
-public enum FileError: ErrorType {
-    case FileNotFound(file: String)
-    case FileNotReadable(file: String)
-    case FileNotWriteable(file: String)
+public enum FileError: Error {
+    case fileNotFound(file: String)
+    case fileNotReadable(file: String)
+    case fileNotWriteable(file: String)
 }
 
 extension FileError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .FileNotFound(let file):
+        case .fileNotFound(let file):
             return "File not found: \(file)"
-        case .FileNotReadable(let file):
+        case .fileNotReadable(let file):
             return "File not readable: \(file)"
-        case .FileNotWriteable(let file):
+        case .fileNotWriteable(let file):
             return "File not writeable: \(file)"
         }
     }
@@ -38,29 +38,32 @@ public func ==(lhs: FilePath, rhs: FilePath) -> Bool {
     Common base class for `File` and `Directory`.
     Should not be used directly.
 */
-public class FilePath: CustomStringConvertible, Equatable {
+open class FilePath: CustomStringConvertible, Equatable {
 
-    static let manager = NSFileManager.defaultManager()
+    static let manager = FileManager.default
 
-    public let name: String
+    open let name: String
     
     // MARK: Initializers
 
     public required init(name: String) {
-        self.name = NSString(string: name).stringByStandardizingPath
+        self.name = NSString(string: name).standardizingPath
     }
 
-    public class func create(name: String) throws -> Self {
+    open class func create(_ name: String) throws -> Self {
         let file = self.init(name: name)
         try file.create()
         return file
     }
 
-    public class func existing(name: String) throws -> Self {
-        let pname = NSString(string: name).UTF8String
+    open class func existing(_ name: String) throws -> Self {
+        let pname = NSString(string: name).utf8String
         let resolved = realpath(pname, nil)
-        guard let resolvedPath = String.fromCString(resolved) else {
-            throw FileError.FileNotFound(file: name)
+        guard resolved != nil else {
+            throw FileError.fileNotFound(file: name)
+        }
+        guard let resolvedPath = String(validatingUTF8: resolved!) else {
+            throw FileError.fileNotFound(file: name)
         }
 
         let file = self.init(name: resolvedPath)
@@ -70,76 +73,76 @@ public class FilePath: CustomStringConvertible, Equatable {
 
     // MARK: Convenience properties
 
-    public var description: String {
+    open var description: String {
         return name
     }
 
-    public var url: NSURL? {
-        return NSURL(fileURLWithPath: name)
+    open var url: URL? {
+        return URL(fileURLWithPath: name)
     }
 
-    public var baseName: String {
+    open var baseName: String {
         return NSString(string: name).lastPathComponent
     }
 
-    public var baseNameWithoutExtension: String {
-        return NSString(string: baseName).stringByDeletingPathExtension
+    open var baseNameWithoutExtension: String {
+        return NSString(string: baseName).deletingPathExtension
     }
 
-    public var fileExtension: String {
+    open var fileExtension: String {
         return NSString(string: name).pathExtension
     }
 
-    public var exists: Bool {
-        return FilePath.manager.fileExistsAtPath(name)
+    open var exists: Bool {
+        return FilePath.manager.fileExists(atPath: name)
     }
 
-    public func checkExists() throws {
+    open func checkExists() throws {
         if !exists {
-            throw FileError.FileNotFound(file: name)
+            throw FileError.fileNotFound(file: name)
         }
     }
 
-    public var displayName: String {
-        return FilePath.manager.displayNameAtPath(name)
+    open var displayName: String {
+        return FilePath.manager.displayName(atPath: name)
     }
 
-    public var mtime: NSDate? {
+    open var mtime: Date? {
         do {
-            let attr: NSDictionary = try FilePath.manager.attributesOfItemAtPath(name)
+            let attr: NSDictionary = try FilePath.manager.attributesOfItem(atPath: name) as NSDictionary
             return attr.fileModificationDate()
         } catch {
             return nil
         }
     }
 
-    public var ctime: NSDate? {
+    open var ctime: Date? {
         do {
-            let attr: NSDictionary = try FilePath.manager.attributesOfItemAtPath(name)
+            let attr: NSDictionary = try FilePath.manager.attributesOfItem(atPath: name) as NSDictionary
             return attr.fileCreationDate()
         } catch {
             return nil
         }
     }
 
-    public var isSymlink: Bool {
+    open var isSymlink: Bool {
         guard let dirUrl = url else { return false }
 
         do {
-            let properties = try dirUrl.resourceValuesForKeys([NSURLIsSymbolicLinkKey])
-            guard let isSymlinkNumber = properties[NSURLIsSymbolicLinkKey] as? NSNumber else { return false }
+            let properties = try (dirUrl as NSURL).resourceValues(forKeys: [URLResourceKey.isSymbolicLinkKey])
+            guard let isSymlinkNumber = properties[URLResourceKey.isSymbolicLinkKey] as? NSNumber else { return false }
             return isSymlinkNumber.boolValue
         } catch _ {
             return false
         }
     }
 
-    public var isDirectory: Bool {
+    open var isDirectory: Bool {
         guard let dirUrl = url else { return false }
 
         do {
-            let properties = try dirUrl.resourceValuesForKeys([NSURLIsDirectoryKey])
-            guard let isDirNumber = properties[NSURLIsDirectoryKey] as? NSNumber else { return false }
+            let properties = try (dirUrl as NSURL).resourceValues(forKeys: [URLResourceKey.isDirectoryKey])
+            guard let isDirNumber = properties[URLResourceKey.isDirectoryKey] as? NSNumber else { return false }
             return isDirNumber.boolValue
         } catch _ {
             return false
@@ -148,18 +151,18 @@ public class FilePath: CustomStringConvertible, Equatable {
 
     // MARK: Convenience functions
 
-    public func nameWithoutExtension(ext: String = "") -> String {
+    open func nameWithoutExtension(_ ext: String = "") -> String {
         if ext == "" || NSString(string: name).pathExtension == ext {
-            return NSString(string: name).stringByDeletingPathExtension
+            return NSString(string: name).deletingPathExtension
         }
 
         return name
     }
 
-    public func relativeName(baseDirectory: Directory) -> String {
+    open func relativeName(_ baseDirectory: Directory) -> String {
         if name.hasPrefix(baseDirectory.name + "/") {
-            if let range = baseDirectory.name.rangeOfString(baseDirectory.name) {
-                return name.substringFromIndex(range.endIndex).trim("/")
+            if let range = baseDirectory.name.range(of: baseDirectory.name) {
+                return name.substring(from: range.upperBound).trim("/")
             }
         }
 
@@ -168,17 +171,17 @@ public class FilePath: CustomStringConvertible, Equatable {
 
     // MARK: Write operations
 
-    public func create() throws {
+    open func create() throws {
         // Abstract
     }
 
     // MARK: Delete operations
 
-    public func delete() throws {
-        try FilePath.manager.removeItemAtPath(name)
+    open func delete() throws {
+        try FilePath.manager.removeItem(atPath: name)
     }
 
-    public func deleteIfExists() -> Bool {
+    open func deleteIfExists() -> Bool {
         do {
             try delete()
             return true
@@ -188,14 +191,14 @@ public class FilePath: CustomStringConvertible, Equatable {
     }
 
     #if os(OSX)
-    public func trash() -> File? {
+    open func trash() -> File? {
         guard let trashUrl = url else {
             return nil
         }
 
         do {
             var resultUrl: NSURL?
-            try File.manager.trashItemAtURL(trashUrl, resultingItemURL: &resultUrl)
+            try File.manager.trashItem(at: trashUrl, resultingItemURL: &resultUrl)
             guard let newPath = resultUrl?.path else {
                 return nil
             }
@@ -214,80 +217,80 @@ public class FilePath: CustomStringConvertible, Equatable {
 /**
     `File` is a wrapper class for a file system file.
 */
-public class File: FilePath {
+open class File: FilePath {
 
     // MARK: Convenience properties
 
-    public var size: Int64 {
+    open var size: Int64 {
         do {
-            let attr: NSDictionary = try File.manager.attributesOfItemAtPath(name)
+            let attr: NSDictionary = try File.manager.attributesOfItem(atPath: name) as NSDictionary
             return Int64(attr.fileSize())
         } catch {
             return 0
         }
     }
 
-    public var dirName: String {
-        return NSString(string: name).stringByDeletingLastPathComponent
+    open var dirName: String {
+        return NSString(string: name).deletingLastPathComponent
     }
 
-    public var directory: Directory {
+    open var directory: Directory {
         return Directory(name: dirName)
     }
 
     // MARK: Write operations
 
-    public override func create() throws {
-        if !File.manager.createFileAtPath(name, contents: nil, attributes: nil) {
-            throw FileError.FileNotWriteable(file: name)
+    open override func create() throws {
+        if !File.manager.createFile(atPath: name, contents: nil, attributes: nil) {
+            throw FileError.fileNotWriteable(file: name)
         }
     }
 
-    public func move(destFile: File) throws {
+    open func move(_ destFile: File) throws {
         do {
-            try File.manager.moveItemAtPath(name, toPath: destFile.name)
+            try File.manager.moveItem(atPath: name, toPath: destFile.name)
         } catch {
-            throw FileError.FileNotWriteable(file: destFile.name)
+            throw FileError.fileNotWriteable(file: destFile.name)
         }
     }
 
-    public func copy(destFile: File) throws {
+    open func copy(_ destFile: File) throws {
         do {
-            try File.manager.copyItemAtPath(name, toPath: destFile.name)
+            try File.manager.copyItem(atPath: name, toPath: destFile.name)
         } catch {
-            throw FileError.FileNotWriteable(file: destFile.name)
+            throw FileError.fileNotWriteable(file: destFile.name)
         }
     }
 
-    public func copy(destFile: File, range:(from: Int64, to: Int64)) throws {
+    open func copy(_ destFile: File, range:(from: Int64, to: Int64)) throws {
         let expectedTotalBytes: Int64 = range.to - range.from + 1
 
         guard exists else {
-            throw FileError.FileNotReadable(file: name)
+            throw FileError.fileNotReadable(file: name)
         }
 
         guard size > 0 else {
             if expectedTotalBytes > 0 {
-                throw FileError.FileNotReadable(file: name)
+                throw FileError.fileNotReadable(file: name)
             }
 
             try destFile.setContents("")
             return
         }
 
-        guard let readHandle = NSFileHandle(forReadingAtPath: name) else {
-            throw FileError.FileNotReadable(file: name)
+        guard let readHandle = FileHandle(forReadingAtPath: name) else {
+            throw FileError.fileNotReadable(file: name)
         }
 
         if !destFile.exists {
             try destFile.setContents("")
         }
 
-        guard let writeHandle = NSFileHandle(forWritingAtPath: destFile.name) else {
-            throw FileError.FileNotWriteable(file: destFile.name)
+        guard let writeHandle = FileHandle(forWritingAtPath: destFile.name) else {
+            throw FileError.fileNotWriteable(file: destFile.name)
         }
 
-        readHandle.seekToFileOffset(UInt64(range.from))
+        readHandle.seek(toFileOffset: UInt64(range.from))
 
         let bufSize: Int64 = 1024 * 1024
         var bytesLeft: Int64 = range.to - range.from + 1
@@ -300,12 +303,12 @@ public class File: FilePath {
             }
             var didRead = 0
             autoreleasepool {
-                let buf = readHandle.readDataOfLength(Int(readBytes))
-                didRead = buf.length
-                if buf.length > 0 {
-                    writeHandle.writeData(buf)
-                    bytesLeft -= Int64(buf.length)
-                    bytesReadTotal += Int64(buf.length)
+                let buf = readHandle.readData(ofLength: Int(readBytes))
+                didRead = buf.count
+                if buf.count > 0 {
+                    writeHandle.write(buf)
+                    bytesLeft -= Int64(buf.count)
+                    bytesReadTotal += Int64(buf.count)
                 }
             }
             if didRead == 0 {
@@ -314,46 +317,46 @@ public class File: FilePath {
         } while bytesLeft > 0
 
         if bytesReadTotal != expectedTotalBytes {
-            throw FileError.FileNotReadable(file: name)
+            throw FileError.fileNotReadable(file: name)
         }
 
         readHandle.closeFile()
         writeHandle.closeFile()
     }
 
-    public func truncate(size: Int64) throws {
-        guard let handle = NSFileHandle(forWritingAtPath: name) else {
-            throw FileError.FileNotFound(file: name)
+    open func truncate(_ size: Int64) throws {
+        guard let handle = FileHandle(forWritingAtPath: name) else {
+            throw FileError.fileNotFound(file: name)
         }
 
-        handle.truncateFileAtOffset(UInt64(size))
+        handle.truncateFile(atOffset: UInt64(size))
     }
 
-    public func setContents(contents: String) throws {
-        guard let data = contents.dataUsingEncoding(NSUTF8StringEncoding) else {
+    open func setContents(_ contents: String) throws {
+        guard let data = contents.data(using: String.Encoding.utf8) else {
             return
         }
 
-        if File.manager.createFileAtPath(name, contents: data, attributes: nil) == false {
-            throw FileError.FileNotWriteable(file: name)
+        if File.manager.createFile(atPath: name, contents: data, attributes: nil) == false {
+            throw FileError.fileNotWriteable(file: name)
         }
     }
 
-    public func append(string: String) throws {
-        guard let handle = NSFileHandle(forWritingAtPath: name) else {
-            throw FileError.FileNotWriteable(file: name)
+    open func append(_ string: String) throws {
+        guard let handle = FileHandle(forWritingAtPath: name) else {
+            throw FileError.fileNotWriteable(file: name)
         }
 
-        guard let data = NSString(string: string).dataUsingEncoding(NSUTF8StringEncoding) else {
-            throw FileError.FileNotWriteable(file: name)
+        guard let data = string.data(using: String.Encoding.utf8) else {
+            throw FileError.fileNotWriteable(file: name)
         }
 
         handle.seekToEndOfFile()
-        handle.writeData(data)
+        handle.write(data)
         handle.closeFile()
     }
 
-    public func append(srcFile: File) throws {
+    open func append(_ srcFile: File) throws {
         let outputStream = try getOutputStream(true)
         outputStream.open()
         defer {
@@ -367,14 +370,14 @@ public class File: FilePath {
         }
 
         let bufSize = 1024 * 1024
-        var buf = [UInt8](count: bufSize, repeatedValue: 0)
+        var buf = [UInt8](repeating: 0, count: bufSize)
 
         var bytesRead = 0
         repeat {
             bytesRead = inputStream.read(&buf, maxLength: bufSize)
             if bytesRead > 0 {
                 if outputStream.write(buf, maxLength: bytesRead) == -1 {
-                    throw FileError.FileNotWriteable(file: name)
+                    throw FileError.fileNotWriteable(file: name)
                 }
             }
         } while bytesRead > 0
@@ -382,13 +385,13 @@ public class File: FilePath {
 
     // MARK: Read operations
 
-    public func getContents() throws -> String {
-        guard let data = File.manager.contentsAtPath(name) else {
-            throw FileError.FileNotReadable(file: name)
+    open func getContents() throws -> String {
+        guard let data = File.manager.contents(atPath: name) else {
+            throw FileError.fileNotReadable(file: name)
         }
 
-        guard let str = NSString(data: data, encoding:NSUTF8StringEncoding) else {
-            throw FileError.FileNotReadable(file: name)
+        guard let str = NSString(data: data, encoding:String.Encoding.utf8.rawValue) else {
+            throw FileError.fileNotReadable(file: name)
         }
         
         return str as String

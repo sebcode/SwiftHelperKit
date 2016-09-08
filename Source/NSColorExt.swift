@@ -24,12 +24,12 @@ extension NSColor {
             return
         }
 
-        let index   = rgba.startIndex.advancedBy(1)
-        let hex     = rgba.substringFromIndex(index)
-        let scanner = NSScanner(string: hex)
+        let index   = rgba.characters.index(rgba.startIndex, offsetBy: 1)
+        let hex     = rgba.substring(from: index)
+        let scanner = Scanner(string: hex)
         var hexValue: CUnsignedLongLong = 0
 
-        guard scanner.scanHexLongLong(&hexValue) else {
+        guard scanner.scanHexInt64(&hexValue) else {
             NSLog("NSColor rgbs: Scan hex error for \(rgba)")
             self.init(red:red, green:green, blue:blue, alpha:alpha)
             return

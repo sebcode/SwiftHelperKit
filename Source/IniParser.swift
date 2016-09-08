@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class IniParser {
+open class IniParser {
 
-    public class func parse(string string: String) -> [String: [String: String]] {
+    open class func parse(string: String) -> [String: [String: String]] {
         guard string != "" else {
             return [:]
         }
 
-        let lines = string.componentsSeparatedByString("\n") as [String]
+        let lines = string.components(separatedBy: "\n") as [String]
         var currentSectionName = ""
         var currentSection: [String: String] = [:]
         var ret: [String: [String: String]] = [:]
@@ -25,13 +25,13 @@ public class IniParser {
                     ret[currentSectionName] = currentSection
                     currentSection = [:]
                 }
-                currentSectionName = line.substringWithRange(line.startIndex.advancedBy(1)..<line.endIndex.advancedBy(-1))
+                currentSectionName = line.substring(with: line.characters.index(line.startIndex, offsetBy: 1)..<line.characters.index(line.endIndex, offsetBy: -1))
             }
 
             if line != "" && currentSectionName != "" {
-                if let range = line.rangeOfString("=") {
-                    let key = line.substringToIndex(range.startIndex).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                    let value = line.substringFromIndex(range.endIndex).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                if let range = line.range(of: "=") {
+                    let key = line.substring(to: range.lowerBound).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    let value = line.substring(from: range.upperBound).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     currentSection[key] = value
                 }
             }

@@ -19,14 +19,14 @@ class NSDateExtTest: BaseTest {
     }
 
     func testCompare() {
-        let date = NSDate()
+        let date = Date()
         XCTAssertTrue(date == date)
 
-        let copyDate = date.dateByAddingTimeInterval(1).dateByAddingTimeInterval(-1)
+        let copyDate = date.addingTimeInterval(1).addingTimeInterval(-1)
         XCTAssertTrue(date == copyDate)
 
-        XCTAssertTrue(NSDate() < NSDate().dateByAddingTimeInterval(10))
-        XCTAssertTrue(NSDate() > NSDate().dateByAddingTimeInterval(-10))
+        XCTAssertTrue(Date() < Date().addingTimeInterval(10))
+        XCTAssertTrue(Date() > Date().addingTimeInterval(-10))
     }
     
 }

@@ -22,7 +22,7 @@ class FileTestTemp: BaseTest {
         let file = try! File.createTemp()
         XCTAssertTrue(file.exists)
     #if os(iOS)
-        XCTAssertTrue(file.name.rangeOfString("/tmp/") != nil)
+        XCTAssertTrue(file.name.contains("/tmp/"))
     #elseif os(OSX)
         XCTAssertTrue(file.name.hasPrefix("/var/"))
     #endif

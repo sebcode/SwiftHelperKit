@@ -19,13 +19,13 @@ class NSColorExtTest: BaseTest {
     }
 
     func testColor() {
-        let rgb = NSColorSpace.sRGBColorSpace()
+        let rgb = NSColorSpace.sRGB
 
-        var color = NSColor(rgba: "#000000").colorUsingColorSpace(rgb)
-        XCTAssertEqual(color, NSColor.blackColor().colorUsingColorSpace(rgb))
+        var color = NSColor(rgba: "#000000").usingColorSpace(rgb)
+        XCTAssertEqual(color, NSColor.black.usingColorSpace(rgb))
 
-        color = NSColor(rgba: "#ffffff").colorUsingColorSpace(rgb)
-        XCTAssertEqual(color, NSColor.whiteColor().colorUsingColorSpace(rgb))
+        color = NSColor(rgba: "#ffffff").usingColorSpace(rgb)
+        XCTAssertEqual(color, NSColor.white.usingColorSpace(rgb))
     }
     
 }

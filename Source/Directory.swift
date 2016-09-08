@@ -11,7 +11,7 @@ import Foundation
 /**
     `Directory` is a wrapper class for a file system directory.
 */
-public class Directory: FilePath {
+open class Directory: FilePath {
 
     // MARK: Factories
 
@@ -19,32 +19,32 @@ public class Directory: FilePath {
     /// (`~/Library/Application Support`).
     ///
     /// - returns: `Directory` instance.
-    public class func applicationSupportDirectory() -> Directory {
-        let urls = Directory.manager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
-        let dirUrl = urls[urls.count - 1] as NSURL
-        return Directory(name: dirUrl.path!)
+    open class func applicationSupportDirectory() -> Directory {
+        let urls = Directory.manager.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+        let dirUrl = urls[urls.count - 1] as URL
+        return Directory(name: dirUrl.path)
     }
 
     /// Returns the user's `Downloads` directory.
     ///
     /// - returns: `Directory` instance.
-    public class func downloadsDirectory() -> Directory {
-        let urls = Directory.manager.URLsForDirectory(.DownloadsDirectory, inDomains: .UserDomainMask)
-        let dirUrl = urls[urls.count - 1] as NSURL
-        return Directory(name: dirUrl.path!)
+    open class func downloadsDirectory() -> Directory {
+        let urls = Directory.manager.urls(for: .downloadsDirectory, in: .userDomainMask)
+        let dirUrl = urls[urls.count - 1] as URL
+        return Directory(name: dirUrl.path)
     }
 
     /// Returns the user's home directory (e.g. `/Users/peter`).
     ///
     /// - returns: `Directory` instance.
-    public class func homeDirectory() -> Directory {
+    open class func homeDirectory() -> Directory {
         return Directory(name: NSHomeDirectory())
     }
 
     /// Returns the user's directory for temporary files.
     ///
     /// - returns: `Directory` instance.
-    public class func tempDirectory() -> Directory {
+    open class func tempDirectory() -> Directory {
         return Directory(name: NSTemporaryDirectory())
     }
 
@@ -52,9 +52,9 @@ public class Directory: FilePath {
     ///
     /// - parameter name: Name of the subdirectory.
     /// - returns: `Directory` instance.
-    public func subDirectory(name: String) -> Directory {
-        let subUrl = url?.URLByAppendingPathComponent(name)
-        return Directory(name: subUrl!.path!)
+    open func subDirectory(_ name: String) -> Directory {
+        let subUrl = url?.appendingPathComponent(name)
+        return Directory(name: subUrl!.path)
     }
 
     // MARK: Static Helper
@@ -66,7 +66,7 @@ public class Directory: FilePath {
     ///
     /// - parameter directories: Array of `Directory` instances.
     /// - returns: `Directory` instance of `nil` on failure.
-    public class func findCommonDirectory(directories: [Directory]) -> Directory? {
+    open class func findCommonDirectory(_ directories: [Directory]) -> Directory? {
         if directories.count == 0 {
             return nil
         }
@@ -83,11 +83,11 @@ public class Directory: FilePath {
             dirParts += [ parts ]
         }
 
-        dirParts.sortInPlace { $0.count < $1.count }
+        dirParts.sort { $0.count < $1.count }
 
         guard let shortestDirParts = dirParts.first else { return nil }
 
-        outer: for (index, part) in shortestDirParts.enumerate() {
+        outer: for (index, part) in shortestDirParts.enumerated() {
             for parts in dirParts {
                 if part != parts[index] {
                     break outer
@@ -97,7 +97,7 @@ public class Directory: FilePath {
             commonParts += [ part ]
         }
 
-        return Directory(name: "/" + commonParts.joinWithSeparator("/"))
+        return Directory(name: "/" + commonParts.joined(separator: "/"))
     }
 
     // MARK: File factories
@@ -107,9 +107,9 @@ public class Directory: FilePath {
     ///
     /// - parameter name: Relative file name.
     /// - returns: A new `File` instance.
-    public func file(name: String) -> File {
-        let subUrl = url?.URLByAppendingPathComponent(name)
-        return File(name: subUrl!.path!)
+    open func file(_ name: String) -> File {
+        let subUrl = url?.appendingPathComponent(name)
+        return File(name: subUrl!.path)
     }
 
     /// Find a new non-existing filename similar to `name`.
@@ -123,7 +123,7 @@ public class Directory: FilePath {
     /// - parameter appendix: Optional additional file extension.
     /// - parameter tries: Maximum tries to find a non-existant filename.
     /// - returns: A new `File` object or nil on failure.
-    public func nextNewFile(name: String, appendix: String = "", tries: Int = 10000) -> File? {
+    open func nextNewFile(_ name: String, appendix: String = "", tries: Int = 10000) -> File? {
         let baseName = file(name).name
         let append = (appendix == "" ? "" : ".\(appendix)")
 
@@ -133,7 +133,7 @@ public class Directory: FilePath {
 
         while targetFile.exists {
             counter += 1
-            let n = NSString(string: baseName).stringByDeletingPathExtension + " (\(counter))"
+            let n = NSString(string: baseName).deletingPathExtension + " (\(counter))"
             let ext = NSString(string: baseName).pathExtension
             let newName = n + (ext == "" ? "" : ".") + ext + append
             targetFile = File(name: newName)
@@ -151,9 +151,9 @@ public class Directory: FilePath {
     ///
     /// - parameter pattern: Glob-pattern.
     /// - returns: Array of `File` and `Directory` instances or `nil` on failure.
-    public func glob(pattern: String) throws -> [FilePath]? {
+    open func glob(_ pattern: String) throws -> [FilePath]? {
         var globt = glob_t()
-        let p = NSString(string: name).stringByAppendingPathComponent(pattern)
+        let p = NSString(string: name).appendingPathComponent(pattern)
         let ret = Darwin.glob(p, GLOB_TILDE | GLOB_BRACE | GLOB_MARK, nil, &globt)
         defer { globfree(&globt) }
 
@@ -162,19 +162,19 @@ public class Directory: FilePath {
         }
 
         guard ret == 0 else {
-            throw FileError.FileNotReadable(file: name)
+            throw FileError.fileNotReadable(file: name)
         }
 
         var result = [FilePath]()
 
         for i in 0 ..< Int(globt.gl_matchc) {
-            guard let path = String.fromCString(globt.gl_pathv[i]) else {
+            guard let path = String(validatingUTF8: globt.gl_pathv[i]!) else {
                 continue
             }
 
             var isDir: ObjCBool = false
-            if FilePath.manager.fileExistsAtPath(path, isDirectory: &isDir) {
-                result += [ isDir ? Directory(name: path) : File(name: path) ]
+            if FilePath.manager.fileExists(atPath: path, isDirectory: &isDir) {
+                result += [ isDir.boolValue ? Directory(name: path) : File(name: path) ]
             }
         }
 
@@ -185,9 +185,9 @@ public class Directory: FilePath {
     /// directory.
     ///
     /// - returns: Array of `File` and `Directory` instances.
-    public func files() -> [FilePath] {
-        let fileManager = NSFileManager.defaultManager()
-        guard let enumerator = fileManager.enumeratorAtPath(name) else {
+    open func files() -> [FilePath] {
+        let fileManager = FileManager.default
+        guard let enumerator = fileManager.enumerator(atPath: name) else {
             return []
         }
 
@@ -211,15 +211,15 @@ public class Directory: FilePath {
     /// Returns the parent directory for this directory.
     ///
     /// - returns: `Directory` instance.
-    public var parentDirectory: Directory {
-        guard let parentUrl = url?.URLByDeletingLastPathComponent else { return Directory(name: "/") }
-        return Directory(name: parentUrl.path!)
+    open var parentDirectory: Directory {
+        guard let parentUrl = url?.deletingLastPathComponent else { return Directory(name: "/") }
+        return Directory(name: parentUrl().path)
     }
 
     /// Checks if this is a existing directory.
     ///
     /// - returns: `true` if directory exists.
-    public override var exists: Bool {
+    open override var exists: Bool {
         return isDirectory
     }
 
@@ -227,15 +227,15 @@ public class Directory: FilePath {
 
     /// Attemts to create this directory (with intermediate directories).
     /// Throws `FileError.FileNotWritable` on failure.
-    public override func create() throws {
+    open override func create() throws {
         guard let dirUrl = url else {
-            throw FileError.FileNotWriteable(file: name)
+            throw FileError.fileNotWriteable(file: name)
         }
 
         do {
-            try Directory.manager.createDirectoryAtURL(dirUrl, withIntermediateDirectories: true, attributes: nil)
+            try Directory.manager.createDirectory(at: dirUrl, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
-            throw FileError.FileNotWriteable(file: name)
+            throw FileError.fileNotWriteable(file: name)
         }
     }
 
@@ -243,8 +243,8 @@ public class Directory: FilePath {
     ///
     /// - parameter prefix: Prefix for the temporary filename.
     /// - returns: New `File` instance for the temporary file.
-    public func createTempFile(prefix: String = "tmp") throws -> File {
-        let newFile = file("\(prefix)-\(NSUUID().UUIDString)")
+    open func createTempFile(_ prefix: String = "tmp") throws -> File {
+        let newFile = file("\(prefix)-\(UUID().uuidString)")
         try newFile.create()
         return newFile
     }

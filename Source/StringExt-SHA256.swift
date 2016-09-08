@@ -11,13 +11,13 @@ import CommonCrypto
 public extension String {
 
     public func sha256sum() -> String {
-        guard let data = (self as NSString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+        guard let data = self.data(using: String.Encoding.utf8, allowLossyConversion: false) else {
             return ""
         }
 
-        var hash: [UInt8] = Array(count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
-        CC_SHA256(data.bytes, CC_LONG(data.length), &hash);
-        return hash.map { byte in byte.toHex() }.reduce("", combine: +)
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+        _ = data.withUnsafeBytes { CC_SHA256($0, CC_LONG(data.count), &hash) }
+        return hash.map { byte in byte.toHex() }.reduce("", +)
     }
-    
+
 }

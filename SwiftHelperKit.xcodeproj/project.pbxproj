@@ -35,7 +35,6 @@
 		963788FD1B85FF21003102F2 /* IniParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E5701B7F675100BFE038 /* IniParserTest.swift */; };
 		963788FE1B85FF21003102F2 /* StringExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */; };
 		963788FF1B85FF21003102F2 /* StringExtTest-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C251B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift */; };
-		963789001B85FF21003102F2 /* NSTimeIntervalExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1C1B7F6AE800CE2BB1 /* NSTimeIntervalExtTest.swift */; };
 		963789011B85FF21003102F2 /* NSDateExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C211B7F6B8E00CE2BB1 /* NSDateExtTest.swift */; };
 		9639E56B1B7F671600BFE038 /* FileTest-IniReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E5691B7F671300BFE038 /* FileTest-IniReader.swift */; };
 		9639E56D1B7F672400BFE038 /* IniParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E56C1B7F672400BFE038 /* IniParser.swift */; };
@@ -43,9 +42,6 @@
 		96AB7C131B7F68D500CE2BB1 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C121B7F68D500CE2BB1 /* StringExt.swift */; };
 		96AB7C171B7F69DB00CE2BB1 /* StringExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */; };
 		96AB7C191B7F6A7200CE2BB1 /* NSDataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */; };
-		96AB7C1B1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1A1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift */; };
-		96AB7C1E1B7F6B1700CE2BB1 /* NSTimeIntervalExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1C1B7F6AE800CE2BB1 /* NSTimeIntervalExtTest.swift */; };
-		96AB7C201B7F6B6100CE2BB1 /* NSDateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1F1B7F6B6100CE2BB1 /* NSDateExt.swift */; };
 		96AB7C221B7F6B8E00CE2BB1 /* NSDateExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C211B7F6B8E00CE2BB1 /* NSDateExtTest.swift */; };
 		96AB7C261B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C251B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift */; };
 		96AB7C401B7F6E0800CE2BB1 /* UInt8Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */; };
@@ -64,8 +60,6 @@
 		96D7B0871B85FDBD00D2A32E /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C121B7F68D500CE2BB1 /* StringExt.swift */; };
 		96D7B0881B85FDBD00D2A32E /* StringExt-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C231B7F6CA400CE2BB1 /* StringExt-SHA256.swift */; };
 		96D7B0891B85FDBD00D2A32E /* NSDataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */; };
-		96D7B08A1B85FDBD00D2A32E /* NSDateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1F1B7F6B6100CE2BB1 /* NSDateExt.swift */; };
-		96D7B08B1B85FDBD00D2A32E /* NSTimeIntervalExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C1A1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift */; };
 		96D7B08C1B85FDBD00D2A32E /* UInt8Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */; };
 		96D7B08E1B85FDC400D2A32E /* SwiftHelperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* SwiftHelperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96EA30911B7F6510005F8887 /* File-IniReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA30901B7F6510005F8887 /* File-IniReader.swift */; };
@@ -135,9 +129,6 @@
 		96AB7C121B7F68D500CE2BB1 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtTest.swift; sourceTree = "<group>"; };
 		96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataExt.swift; sourceTree = "<group>"; };
-		96AB7C1A1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimeIntervalExt.swift; sourceTree = "<group>"; };
-		96AB7C1C1B7F6AE800CE2BB1 /* NSTimeIntervalExtTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimeIntervalExtTest.swift; sourceTree = "<group>"; };
-		96AB7C1F1B7F6B6100CE2BB1 /* NSDateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExt.swift; sourceTree = "<group>"; };
 		96AB7C211B7F6B8E00CE2BB1 /* NSDateExtTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtTest.swift; sourceTree = "<group>"; };
 		96AB7C231B7F6CA400CE2BB1 /* StringExt-SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StringExt-SHA256.swift"; sourceTree = "<group>"; };
 		96AB7C251B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StringExtTest-SHA256.swift"; sourceTree = "<group>"; };
@@ -230,8 +221,6 @@
 				96AB7C121B7F68D500CE2BB1 /* StringExt.swift */,
 				96AB7C231B7F6CA400CE2BB1 /* StringExt-SHA256.swift */,
 				96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */,
-				96AB7C1F1B7F6B6100CE2BB1 /* NSDateExt.swift */,
-				96AB7C1A1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift */,
 				96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */,
 				96D7B06C1B85E9DD00D2A32E /* NSColorExt.swift */,
 				96286B401B7E556800567CA3 /* Supporting Files */,
@@ -253,7 +242,6 @@
 				9639E5701B7F675100BFE038 /* IniParserTest.swift */,
 				96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */,
 				96AB7C251B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift */,
-				96AB7C1C1B7F6AE800CE2BB1 /* NSTimeIntervalExtTest.swift */,
 				96AB7C211B7F6B8E00CE2BB1 /* NSDateExtTest.swift */,
 				96D7B06E1B85EA2C00D2A32E /* NSColorExtTest.swift */,
 				96EA30941B7F6616005F8887 /* Supporting Files */,
@@ -387,15 +375,19 @@
 				TargetAttributes = {
 					96286B171B7E54C200567CA3 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					96286B211B7E54C200567CA3 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					963788E91B85FEF3003102F2 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					96D7B0741B85FD1A00D2A32E = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -473,11 +465,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				96AB7C411B7F6E9600CE2BB1 /* StringExt-SHA256.swift in Sources */,
-				96AB7C201B7F6B6100CE2BB1 /* NSDateExt.swift in Sources */,
 				96AB7C131B7F68D500CE2BB1 /* StringExt.swift in Sources */,
 				96D7B06D1B85E9DD00D2A32E /* NSColorExt.swift in Sources */,
 				96286B3E1B7E555700567CA3 /* File.swift in Sources */,
-				96AB7C1B1B7F6AC300CE2BB1 /* NSTimeIntervalExt.swift in Sources */,
 				96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */,
 				96286B3C1B7E555700567CA3 /* File-Temp.swift in Sources */,
 				96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */,
@@ -499,7 +489,6 @@
 				96AB7C221B7F6B8E00CE2BB1 /* NSDateExtTest.swift in Sources */,
 				96286B641B7E56E200567CA3 /* FileTest-NSStream.swift in Sources */,
 				96286B621B7E56E200567CA3 /* BaseTest.swift in Sources */,
-				96AB7C1E1B7F6B1700CE2BB1 /* NSTimeIntervalExtTest.swift in Sources */,
 				96286B651B7E56E200567CA3 /* FileTest-SHA256.swift in Sources */,
 				9639E5711B7F675100BFE038 /* IniParserTest.swift in Sources */,
 				96071FAF1B8640C00097C61E /* DirectoryTest.swift in Sources */,
@@ -516,7 +505,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				963788FC1B85FF21003102F2 /* FileTest-IniReader.swift in Sources */,
-				963789001B85FF21003102F2 /* NSTimeIntervalExtTest.swift in Sources */,
 				963788F91B85FF21003102F2 /* FileTest-NSStream.swift in Sources */,
 				96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */,
 				963788FA1B85FF21003102F2 /* FileTest-SHA256.swift in Sources */,
@@ -536,7 +524,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				96D7B0821B85FDBD00D2A32E /* File-NSStream.swift in Sources */,
-				96D7B08B1B85FDBD00D2A32E /* NSTimeIntervalExt.swift in Sources */,
 				96D7B07F1B85FDBD00D2A32E /* File.swift in Sources */,
 				96D7B0831B85FDBD00D2A32E /* File-SHA256.swift in Sources */,
 				96D7B0871B85FDBD00D2A32E /* StringExt.swift in Sources */,
@@ -546,7 +533,6 @@
 				96D7B0851B85FDBD00D2A32E /* File-IniReader.swift in Sources */,
 				96D7B08C1B85FDBD00D2A32E /* UInt8Ext.swift in Sources */,
 				96D7B0861B85FDBD00D2A32E /* IniParser.swift in Sources */,
-				96D7B08A1B85FDBD00D2A32E /* NSDateExt.swift in Sources */,
 				96D7B0891B85FDBD00D2A32E /* NSDataExt.swift in Sources */,
 				96071FB31B86421C0097C61E /* Directory.swift in Sources */,
 			);
@@ -610,6 +596,7 @@
 				SDKROOT = macosx;
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/Vendor/CommonCrypto";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -649,6 +636,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/Vendor/CommonCrypto";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -676,6 +664,7 @@
 				PRODUCT_NAME = SwiftHelperKit;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -700,6 +689,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKit;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -717,6 +707,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -734,6 +725,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKitTests;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -752,6 +744,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = seb.SwiftHelperKitiOSTests;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -770,6 +763,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = seb.SwiftHelperKitiOSTests;
 				PRODUCT_NAME = SwiftHelperKitTests;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -795,6 +789,7 @@
 				PRODUCT_NAME = SwiftHelperKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -820,6 +815,7 @@
 				PRODUCT_NAME = SwiftHelperKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

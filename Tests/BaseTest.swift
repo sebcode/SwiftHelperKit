@@ -17,16 +17,16 @@ class BaseTest: XCTestCase {
         super.tearDown()
     }
 
-    func waitFor(hasCalledBack: UnsafePointer<Bool>) -> Bool {
-        let showProgress = Process.arguments.contains("--progress")
+    func waitFor(_ hasCalledBack: UnsafePointer<Bool>) -> Bool {
+        let showProgress = CommandLine.arguments.contains("--progress")
 
-        while hasCalledBack.memory == false {
+        while hasCalledBack.pointee == false {
             if showProgress {
                 print(".", terminator: "")
                 fflush(__stdoutp)
             }
-            let loopUntil = NSDate(timeIntervalSinceNow: 0.1)
-            NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: loopUntil)
+            let loopUntil = Date(timeIntervalSinceNow: 0.1)
+            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: loopUntil)
         }
         
         return true

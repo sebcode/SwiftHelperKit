@@ -13,17 +13,17 @@ extension File {
 
     // MARK: Convenience getters
 
-    public func getInputStream() throws -> NSInputStream {
-        guard let inputStream = NSInputStream(fileAtPath: name) else {
-            throw FileError.FileNotReadable(file: name)
+    public func getInputStream() throws -> InputStream {
+        guard let inputStream = InputStream(fileAtPath: name) else {
+            throw FileError.fileNotReadable(file: name)
         }
 
         return inputStream
     }
 
-    public func getOutputStream(append: Bool) throws -> NSOutputStream {
-        guard let outputStream = NSOutputStream(toFileAtPath: name, append: append) else {
-            throw FileError.FileNotWriteable(file: name)
+    public func getOutputStream(_ append: Bool) throws -> OutputStream {
+        guard let outputStream = OutputStream(toFileAtPath: name, append: append) else {
+            throw FileError.fileNotWriteable(file: name)
         }
 
         return outputStream

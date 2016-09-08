@@ -19,8 +19,8 @@ class FileTestSHA256TreeHash: BaseTest {
     }
 
     func testGetChunkSHA256Hashes() {
-        let part1 = String(count: 1024 * 1024, repeatedValue: ("a" as Character))
-        let part2 = String(count: 100, repeatedValue: ("b" as Character))
+        let part1 = String(repeating: String(("a" as Character)), count: 1024 * 1024)
+        let part2 = String(repeating: String(("b" as Character)), count: 100)
         let file = try! File.createTemp()
         try! file.setContents(part1 + part2)
         XCTAssertEqual(Int64((1024 * 1024) + 100), file.size)

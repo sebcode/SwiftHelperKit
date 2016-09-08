@@ -22,24 +22,24 @@ class FileTestNSStream: BaseTest {
 
     func testGetInputStream() {
         var file = try! File.createTemp()
-        try! file.getInputStream()
+        _ = try! file.getInputStream()
         try! file.delete()
 
         file = File(name: "")
         do {
-            try file.getInputStream()
+            _ = try file.getInputStream()
             XCTFail()
         } catch { }
     }
 
     func testGetOutputStream() {
         var file = try! File.createTemp()
-        try! file.getOutputStream(true)
+        _ = try! file.getOutputStream(true)
         try! file.delete()
 
         file = File(name: "")
         do {
-            try file.getOutputStream(true)
+            _ = try file.getOutputStream(true)
             XCTFail()
         } catch { }
     }
