@@ -11,10 +11,6 @@
 		96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FAD1B8640A50097C61E /* DirectoryTest.swift */; };
 		96071FB21B8641F90097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
 		96071FB31B86421C0097C61E /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96071FB11B8641F90097C61E /* Directory.swift */; };
-		961A84011D34140800423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84001D34140800423B25 /* CommonCrypto.framework */; };
-		961A84041D34142B00423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84031D34142B00423B25 /* CommonCrypto.framework */; };
-		961A840B1D341B1C00423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84001D34140800423B25 /* CommonCrypto.framework */; };
-		961A840C1D341B2100423B25 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 961A84031D34142B00423B25 /* CommonCrypto.framework */; };
 		96286B3A1B7E555700567CA3 /* File-NSStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B331B7E555700567CA3 /* File-NSStream.swift */; };
 		96286B3B1B7E555700567CA3 /* File-SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B341B7E555700567CA3 /* File-SHA256.swift */; };
 		96286B3C1B7E555700567CA3 /* File-Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96286B351B7E555700567CA3 /* File-Temp.swift */; };
@@ -62,6 +58,8 @@
 		96D7B0891B85FDBD00D2A32E /* NSDataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */; };
 		96D7B08C1B85FDBD00D2A32E /* UInt8Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */; };
 		96D7B08E1B85FDC400D2A32E /* SwiftHelperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 96286B361B7E555700567CA3 /* SwiftHelperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96E9A2131D8300460037A67F /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E9A2121D8300460037A67F /* CommonCrypto.framework */; };
+		96E9A2141D83004B0037A67F /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96E9A2121D8300460037A67F /* CommonCrypto.framework */; };
 		96EA30911B7F6510005F8887 /* File-IniReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA30901B7F6510005F8887 /* File-IniReader.swift */; };
 /* End PBXBuildFile section */
 
@@ -106,8 +104,6 @@
 /* Begin PBXFileReference section */
 		96071FAD1B8640A50097C61E /* DirectoryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryTest.swift; sourceTree = "<group>"; };
 		96071FB11B8641F90097C61E /* Directory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
-		961A84001D34140800423B25 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
-		961A84031D34142B00423B25 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/iOS/CommonCrypto.framework; sourceTree = "<group>"; };
 		96286B181B7E54C200567CA3 /* SwiftHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B221B7E54C200567CA3 /* SwiftHelperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftHelperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96286B331B7E555700567CA3 /* File-NSStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-NSStream.swift"; path = "Source/File-NSStream.swift"; sourceTree = SOURCE_ROOT; };
@@ -138,6 +134,7 @@
 		96D7B06C1B85E9DD00D2A32E /* NSColorExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColorExt.swift; sourceTree = "<group>"; };
 		96D7B06E1B85EA2C00D2A32E /* NSColorExtTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColorExtTest.swift; sourceTree = "<group>"; };
 		96D7B0751B85FD1A00D2A32E /* SwiftHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		96E9A2121D8300460037A67F /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = ../../Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
 		96EA30901B7F6510005F8887 /* File-IniReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "File-IniReader.swift"; path = "Source/File-IniReader.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -146,7 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				961A84011D34140800423B25 /* CommonCrypto.framework in Frameworks */,
+				96E9A2131D8300460037A67F /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +151,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				961A840B1D341B1C00423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +158,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				961A840C1D341B2100423B25 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				961A84041D34142B00423B25 /* CommonCrypto.framework in Frameworks */,
+				96E9A2141D83004B0037A67F /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,8 +175,7 @@
 		961A84021D34140C00423B25 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				961A84031D34142B00423B25 /* CommonCrypto.framework */,
-				961A84001D34140800423B25 /* CommonCrypto.framework */,
+				96E9A2121D8300460037A67F /* CommonCrypto.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
