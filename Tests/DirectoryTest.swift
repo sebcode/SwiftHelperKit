@@ -18,6 +18,11 @@ class DirectoryTest: BaseTest {
         super.tearDown()
     }
 
+    func testFreeDiskSpace() {
+        let testDir = Directory(name: "/tmp")
+        XCTAssertTrue(testDir.freeDiskSpace ?? 0 > 100)
+    }
+
     func testParentDirectory() {
         var testDir = Directory(name: "/tmp")
         XCTAssertEqual("/", testDir.parentDirectory.name)

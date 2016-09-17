@@ -208,6 +208,20 @@ open class Directory: FilePath {
 
     // MARK: Convenience properties
 
+    open var freeDiskSpace: Int64? {
+        do {
+            let attributes = try FileManager.default.attributesOfFileSystem(forPath: name)
+            let freeSize = attributes[.systemFreeSize] as? NSNumber
+            if (freeSize != nil) {
+                return freeSize?.int64Value
+            } else {
+                return nil
+            }
+        } catch {
+            return nil
+        }
+    }
+
     /// Returns the parent directory for this directory.
     ///
     /// - returns: `Directory` instance.
