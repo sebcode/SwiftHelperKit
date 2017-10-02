@@ -25,13 +25,13 @@ open class IniParser {
                     ret[currentSectionName] = currentSection
                     currentSection = [:]
                 }
-                currentSectionName = line.substring(with: line.characters.index(line.startIndex, offsetBy: 1)..<line.characters.index(line.endIndex, offsetBy: -1))
+                currentSectionName = String(line[line.characters.index(line.startIndex, offsetBy: 1)..<line.characters.index(line.endIndex, offsetBy: -1)])
             }
 
             if line != "" && currentSectionName != "" {
                 if let range = line.range(of: "=") {
-                    let key = line.substring(to: range.lowerBound).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                    let value = line.substring(from: range.upperBound).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    let key = line[..<range.lowerBound].trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    let value = String(line.suffix(from: range.upperBound)).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     currentSection[key] = value
                 }
             }

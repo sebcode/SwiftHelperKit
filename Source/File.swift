@@ -162,7 +162,7 @@ open class FilePath: CustomStringConvertible, Equatable {
     open func relativeName(_ baseDirectory: Directory) -> String {
         if name.hasPrefix(baseDirectory.name + "/") {
             if let range = baseDirectory.name.range(of: baseDirectory.name) {
-                return name.substring(from: range.upperBound).trim("/")
+                return String(name.suffix(from: range.upperBound)).trim("/")
             }
         }
 
