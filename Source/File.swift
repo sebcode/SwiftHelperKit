@@ -278,58 +278,91 @@ open class File: FilePath {
             return
         }
 
-        guard let readHandle = FileHandle(forReadingAtPath: name) else {
-            throw FileError.fileNotReadable(file: name)
-        }
+        var throwError: Error? = nil
 
-        if !destFile.exists {
-            try destFile.setContents("")
-        }
-
-        guard let writeHandle = FileHandle(forWritingAtPath: destFile.name) else {
-            throw FileError.fileNotWriteable(file: destFile.name)
-        }
-
-        readHandle.seek(toFileOffset: UInt64(range.from))
-
-        let bufSize: Int64 = 1024 * 1024
-        var bytesLeft: Int64 = range.to - range.from + 1
-        var bytesReadTotal: Int64 = 0
-
-        repeat {
-            var readBytes: Int64 = bufSize
-            if bytesLeft < readBytes {
-                readBytes = bytesLeft
+        let exception = tryBlock {
+            guard let readHandle = FileHandle(forReadingAtPath: self.name) else {
+                throwError = FileError.fileNotReadable(file: self.name)
+                return
             }
-            var didRead = 0
-            autoreleasepool {
-                let buf = readHandle.readData(ofLength: Int(readBytes))
-                didRead = buf.count
-                if buf.count > 0 {
-                    writeHandle.write(buf)
-                    bytesLeft -= Int64(buf.count)
-                    bytesReadTotal += Int64(buf.count)
+
+            if !destFile.exists {
+                do {
+                    try destFile.setContents("")
+                } catch  {
+                    throwError = FileError.fileNotWriteable(file: destFile.name)
+                    return
                 }
             }
-            if didRead == 0 {
-                break
-            }
-        } while bytesLeft > 0
 
-        if bytesReadTotal != expectedTotalBytes {
-            throw FileError.fileNotReadable(file: name)
+            guard let writeHandle = FileHandle(forWritingAtPath: destFile.name) else {
+                throwError = FileError.fileNotWriteable(file: destFile.name)
+                return
+            }
+
+            readHandle.seek(toFileOffset: UInt64(range.from))
+
+            let bufSize: Int64 = 1024 * 1024
+            var bytesLeft: Int64 = range.to - range.from + 1
+            var bytesReadTotal: Int64 = 0
+
+            repeat {
+                var readBytes: Int64 = bufSize
+                if bytesLeft < readBytes {
+                    readBytes = bytesLeft
+                }
+                var didRead = 0
+                autoreleasepool {
+                    let buf = readHandle.readData(ofLength: Int(readBytes))
+                    didRead = buf.count
+                    if buf.count > 0 {
+                        writeHandle.write(buf)
+                        bytesLeft -= Int64(buf.count)
+                        bytesReadTotal += Int64(buf.count)
+                    }
+                }
+                if didRead == 0 {
+                    break
+                }
+            } while bytesLeft > 0
+
+            if bytesReadTotal != expectedTotalBytes {
+                throwError = FileError.fileNotReadable(file: self.name)
+                return
+            }
+
+            readHandle.closeFile()
+            writeHandle.closeFile()
         }
 
-        readHandle.closeFile()
-        writeHandle.closeFile()
+        if let err = throwError {
+            throw err
+        }
+
+        guard exception == nil else {
+            throw FileError.fileNotWriteable(file: destFile.name)
+        }
     }
 
     open func truncate(_ size: Int64) throws {
-        guard let handle = FileHandle(forWritingAtPath: name) else {
-            throw FileError.fileNotFound(file: name)
+        var throwError: Error? = nil
+
+        let exception = tryBlock {
+            guard let handle = FileHandle(forWritingAtPath: self.name) else {
+                throwError = FileError.fileNotFound(file: self.name)
+                return
+            }
+
+            handle.truncateFile(atOffset: UInt64(size))
         }
 
-        handle.truncateFile(atOffset: UInt64(size))
+        if let err = throwError {
+            throw err
+        }
+
+        guard exception == nil else {
+            throw FileError.fileNotWriteable(file: self.name)
+        }
     }
 
     open func setContents(_ contents: String) throws {
@@ -343,17 +376,31 @@ open class File: FilePath {
     }
 
     open func append(_ string: String) throws {
-        guard let handle = FileHandle(forWritingAtPath: name) else {
-            throw FileError.fileNotWriteable(file: name)
+        var throwError: Error? = nil
+
+        let exception = tryBlock {
+            guard let handle = FileHandle(forWritingAtPath: self.name) else {
+                throwError = FileError.fileNotWriteable(file: self.name)
+                return
+            }
+
+            guard let data = string.data(using: String.Encoding.utf8) else {
+                throwError = FileError.fileNotWriteable(file: self.name)
+                return
+            }
+
+            handle.seekToEndOfFile()
+            handle.write(data)
+            handle.closeFile()
         }
 
-        guard let data = string.data(using: String.Encoding.utf8) else {
-            throw FileError.fileNotWriteable(file: name)
+        if let err = throwError {
+            throw err
         }
 
-        handle.seekToEndOfFile()
-        handle.write(data)
-        handle.closeFile()
+        guard exception == nil else {
+            throw FileError.fileNotWriteable(file: name)
+        }
     }
 
     open func append(_ srcFile: File) throws {

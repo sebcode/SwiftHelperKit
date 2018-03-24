@@ -32,49 +32,66 @@ extension File {
             return hash.map { byte in byte.toHex() }.reduce("", +)
         }
 
-        guard let fileHandle = FileHandle(forReadingAtPath: name) else {
-            throw FileError.fileNotReadable(file: name)
-        }
+        var resultHash = ""
+        var throwError: Error? = nil
 
-        fileHandle.seek(toFileOffset: UInt64(range.from))
-
-        let bufSize: Int64 = 1024 * 1024
-        var bytesLeft: Int64 = range.to - range.from + 1
-        var bytesReadTotal: Int64 = 0
-
-        var context = CC_SHA256_CTX()
-        CC_SHA256_Init(&context)
-
-        repeat {
-            var readBytes: Int64 = bufSize
-            if bytesLeft < readBytes {
-                readBytes = bytesLeft
+        let exception = tryBlock {
+            guard let fileHandle = FileHandle(forReadingAtPath: self.name) else {
+                throwError = FileError.fileNotReadable(file: self.name)
+                return
             }
-            var didRead = 0
-            autoreleasepool {
-                let buf = fileHandle.readData(ofLength: Int(readBytes))
-                didRead = buf.count
-                if buf.count > 0 {
-                    _ = buf.withUnsafeBytes { bytes in
-                        CC_SHA256_Update(&context, bytes, CC_LONG(buf.count))
-                    }
-                    bytesLeft -= Int64(buf.count)
-                    bytesReadTotal += Int64(buf.count)
+
+            fileHandle.seek(toFileOffset: UInt64(range.from))
+
+            let bufSize: Int64 = 1024 * 1024
+            var bytesLeft: Int64 = range.to - range.from + 1
+            var bytesReadTotal: Int64 = 0
+
+            var context = CC_SHA256_CTX()
+            CC_SHA256_Init(&context)
+
+            repeat {
+                var readBytes: Int64 = bufSize
+                if bytesLeft < readBytes {
+                    readBytes = bytesLeft
                 }
-            }
-            if didRead == 0 {
-                break
-            }
-        } while bytesLeft > 0
+                var didRead = 0
+                autoreleasepool {
+                    let buf = fileHandle.readData(ofLength: Int(readBytes))
+                    didRead = buf.count
+                    if buf.count > 0 {
+                        _ = buf.withUnsafeBytes { bytes in
+                            CC_SHA256_Update(&context, bytes, CC_LONG(buf.count))
+                        }
+                        bytesLeft -= Int64(buf.count)
+                        bytesReadTotal += Int64(buf.count)
+                    }
+                }
+                if didRead == 0 {
+                    break
+                }
+            } while bytesLeft > 0
 
-        if bytesReadTotal != expectedTotalBytes {
+            if bytesReadTotal != expectedTotalBytes {
+                throwError = FileError.fileNotReadable(file: self.name)
+                return
+            }
+
+            fileHandle.closeFile()
+
+            CC_SHA256_Final(&hash, &context)
+            resultHash = hash.map { byte in byte.toHex() }.reduce("", +)
+        }
+
+        if let err = throwError {
+            throw err
+        }
+
+        guard exception == nil else {
             throw FileError.fileNotReadable(file: name)
         }
 
-        fileHandle.closeFile()
-
-        CC_SHA256_Final(&hash, &context)
-        return hash.map { byte in byte.toHex() }.reduce("", +)
+        return resultHash
     }
 
     public func computeSHA256() throws -> String {

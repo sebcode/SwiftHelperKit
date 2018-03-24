@@ -35,6 +35,10 @@
 		9639E56B1B7F671600BFE038 /* FileTest-IniReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E5691B7F671300BFE038 /* FileTest-IniReader.swift */; };
 		9639E56D1B7F672400BFE038 /* IniParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E56C1B7F672400BFE038 /* IniParser.swift */; };
 		9639E5711B7F675100BFE038 /* IniParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639E5701B7F675100BFE038 /* IniParserTest.swift */; };
+		9693820E20667CBB005DB87E /* ExceptionCatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 9693820B20667A8A005DB87E /* ExceptionCatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9693820F20667CBD005DB87E /* ExceptionCatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 9693820B20667A8A005DB87E /* ExceptionCatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9693821320668680005DB87E /* ExceptionCatcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969382102066864D005DB87E /* ExceptionCatcherTest.swift */; };
+		9693821420668ADB005DB87E /* ExceptionCatcherTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969382102066864D005DB87E /* ExceptionCatcherTest.swift */; };
 		96AB7C131B7F68D500CE2BB1 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C121B7F68D500CE2BB1 /* StringExt.swift */; };
 		96AB7C171B7F69DB00CE2BB1 /* StringExtTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */; };
 		96AB7C191B7F6A7200CE2BB1 /* NSDataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */; };
@@ -122,6 +126,8 @@
 		9639E5691B7F671300BFE038 /* FileTest-IniReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FileTest-IniReader.swift"; path = "Tests/FileTest-IniReader.swift"; sourceTree = SOURCE_ROOT; };
 		9639E56C1B7F672400BFE038 /* IniParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IniParser.swift; path = Source/IniParser.swift; sourceTree = SOURCE_ROOT; };
 		9639E5701B7F675100BFE038 /* IniParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IniParserTest.swift; path = ../Tests/IniParserTest.swift; sourceTree = "<group>"; };
+		9693820B20667A8A005DB87E /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
+		969382102066864D005DB87E /* ExceptionCatcherTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionCatcherTest.swift; sourceTree = "<group>"; };
 		96AB7C121B7F68D500CE2BB1 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		96AB7C141B7F68EF00CE2BB1 /* StringExtTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtTest.swift; sourceTree = "<group>"; };
 		96AB7C181B7F6A7200CE2BB1 /* NSDataExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataExt.swift; sourceTree = "<group>"; };
@@ -218,6 +224,7 @@
 				96AB7C3F1B7F6E0800CE2BB1 /* UInt8Ext.swift */,
 				96D7B06C1B85E9DD00D2A32E /* NSColorExt.swift */,
 				96286B401B7E556800567CA3 /* Supporting Files */,
+				9693820B20667A8A005DB87E /* ExceptionCatcher.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 				96AB7C251B7F6CCF00CE2BB1 /* StringExtTest-SHA256.swift */,
 				96AB7C211B7F6B8E00CE2BB1 /* NSDateExtTest.swift */,
 				96D7B06E1B85EA2C00D2A32E /* NSColorExtTest.swift */,
+				969382102066864D005DB87E /* ExceptionCatcherTest.swift */,
 				96EA30941B7F6616005F8887 /* Supporting Files */,
 			);
 			path = Tests;
@@ -268,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96286B3D1B7E555700567CA3 /* SwiftHelperKit.h in Headers */,
+				9693820E20667CBB005DB87E /* ExceptionCatcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96D7B08E1B85FDC400D2A32E /* SwiftHelperKit.h in Headers */,
+				9693820F20667CBD005DB87E /* ExceptionCatcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +379,7 @@
 				TargetAttributes = {
 					96286B171B7E54C200567CA3 = {
 						CreatedOnToolsVersion = 7.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 0920;
 					};
 					96286B211B7E54C200567CA3 = {
 						CreatedOnToolsVersion = 7.0;
@@ -381,7 +391,7 @@
 					};
 					96D7B0741B85FD1A00D2A32E = {
 						CreatedOnToolsVersion = 7.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0920;
 					};
 				};
 			};
@@ -488,6 +498,7 @@
 				96071FAF1B8640C00097C61E /* DirectoryTest.swift in Sources */,
 				9639E56B1B7F671600BFE038 /* FileTest-IniReader.swift in Sources */,
 				96286B671B7E56E200567CA3 /* FileTest.swift in Sources */,
+				9693821320668680005DB87E /* ExceptionCatcherTest.swift in Sources */,
 				96AB7C5F1B7F715E00CE2BB1 /* FileTest-SHA256TreeHash.swift in Sources */,
 				96AB7C171B7F69DB00CE2BB1 /* StringExtTest.swift in Sources */,
 				96286B661B7E56E200567CA3 /* FileTest-Temp.swift in Sources */,
@@ -499,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				963788FC1B85FF21003102F2 /* FileTest-IniReader.swift in Sources */,
+				9693821420668ADB005DB87E /* ExceptionCatcherTest.swift in Sources */,
 				963788F91B85FF21003102F2 /* FileTest-NSStream.swift in Sources */,
 				96071FB01B8640C10097C61E /* DirectoryTest.swift in Sources */,
 				963788FA1B85FF21003102F2 /* FileTest-SHA256.swift in Sources */,
@@ -782,6 +794,7 @@
 		96D7B07B1B85FD1A00D2A32E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -801,6 +814,7 @@
 				PRODUCT_NAME = SwiftHelperKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -809,6 +823,7 @@
 		96D7B07C1B85FD1A00D2A32E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;

@@ -268,6 +268,18 @@ class FileTest: BaseTest {
         XCTAssertEqual("hallo123destbytes", try! destFile.getContents())
         
         try! srcFile.delete()
+        try! destFile.delete()
+    }
+
+    func testAppendString() {
+        let destFile = try! File.createTemp()
+        try! destFile.setContents("hallo")
+
+        try! destFile.append("123")
+
+        XCTAssertEqual("hallo123", try! destFile.getContents())
+
+        try! destFile.delete()
     }
 
     func testAppendFileNotWriteable() {

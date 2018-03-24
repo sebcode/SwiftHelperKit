@@ -8,3 +8,6 @@
 
 FOUNDATION_EXPORT double SwiftHelperKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftHelperKitVersionString[];
+
+#import "ExceptionCatcher.h"
+

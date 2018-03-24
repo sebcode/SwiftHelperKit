@@ -43,4 +43,29 @@ class FileTestSHA256: BaseTest {
         try! file.delete()
     }
 
+    func testComputeSHA256RangeFail() {
+//        let task = Process()
+//        let pipe = Pipe()
+//        task.launchPath = "/usr/bin/mkfifo"
+//        task.arguments = ["/tmp/testpipe"]
+//        task.standardOutput = pipe
+//        task.launch()
+
+//        let exception = tryBlock {
+//            let fileHandle = FileHandle(forReadingAtPath: "/tmp/test123")!
+//            fileHandle.write("wurst".data(using: .utf8)!)
+//        }
+//        guard exception != nil else {
+//            XCTFail()
+//            return
+//        }
+
+
+//        let file4 = File(name: "/tmp/testinvalid")
+//        //        do {
+//        _ = try! file4.computeSHA256((from: 1, to: 10))
+//        //            XCTFail()
+//        //        } catch { }
+    }
+
 }
