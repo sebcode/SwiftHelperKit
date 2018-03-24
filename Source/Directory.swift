@@ -79,7 +79,7 @@ open class Directory: FilePath {
         var commonParts = [String]()
 
         for dir in directories {
-            let parts = dir.name.characters.split { $0 == "/" }.map { String($0) }
+            let parts = dir.name.split { $0 == "/" }.map { String($0) }
             dirParts += [ parts ]
         }
 

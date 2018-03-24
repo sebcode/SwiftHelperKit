@@ -22,9 +22,9 @@ public extension String {
     func dataFromHexString() -> Data? {
         let str = self
         let regex = try! NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
-        let range = NSMakeRange(0, str.characters.count)
+        let range = NSMakeRange(0, str.count)
         let found = regex.firstMatch(in: str, options: .reportProgress, range: range)
-        if found == nil || found?.range.location == NSNotFound || str.characters.count % 2 != 0 {
+        if found == nil || found?.range.location == NSNotFound || str.count % 2 != 0 {
             return nil
         }
 

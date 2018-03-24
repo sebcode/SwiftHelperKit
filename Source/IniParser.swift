@@ -25,7 +25,7 @@ open class IniParser {
                     ret[currentSectionName] = currentSection
                     currentSection = [:]
                 }
-                currentSectionName = String(line[line.characters.index(line.startIndex, offsetBy: 1)..<line.characters.index(line.endIndex, offsetBy: -1)])
+                currentSectionName = String(line[line.index(line.startIndex, offsetBy: 1)..<line.index(line.endIndex, offsetBy: -1)])
             }
 
             if line != "" && currentSectionName != "" {

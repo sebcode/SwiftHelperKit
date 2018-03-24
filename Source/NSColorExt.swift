@@ -24,7 +24,7 @@ extension NSColor {
             return
         }
 
-        let index   = rgba.characters.index(rgba.startIndex, offsetBy: 1)
+        let index   = rgba.index(rgba.startIndex, offsetBy: 1)
         let hex     = String(rgba[index...])
         let scanner = Scanner(string: hex)
         var hexValue: CUnsignedLongLong = 0
@@ -35,7 +35,7 @@ extension NSColor {
             return
         }
 
-        switch hex.characters.count {
+        switch hex.count {
         case 3:
             red   = CGFloat((hexValue & 0xF00) >> 8)       / 15.0
             green = CGFloat((hexValue & 0x0F0) >> 4)       / 15.0
