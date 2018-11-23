@@ -26,7 +26,7 @@ class BaseTest: XCTestCase {
                 fflush(__stdoutp)
             }
             let loopUntil = Date(timeIntervalSinceNow: 0.1)
-            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: loopUntil)
+            RunLoop.current.run(mode: RunLoop.Mode.default, before: loopUntil)
         }
         
         return true

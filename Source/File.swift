@@ -42,7 +42,7 @@ open class FilePath: CustomStringConvertible, Equatable {
 
     static let manager = FileManager.default
 
-    open let name: String
+    public let name: String
     
     // MARK: Initializers
 
