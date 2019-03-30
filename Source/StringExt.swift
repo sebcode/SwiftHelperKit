@@ -10,11 +10,11 @@ import Foundation
 
 public extension String {
 
-    public func trim() -> String {
+    func trim() -> String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
-    public func trim(_ char: Character) -> String {
+    func trim(_ char: Character) -> String {
         return self.trimmingCharacters(in: CharacterSet(charactersIn: String(char)))
     }
 

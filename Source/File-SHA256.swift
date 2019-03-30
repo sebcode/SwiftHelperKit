@@ -60,8 +60,8 @@ extension File {
                     let buf = fileHandle.readData(ofLength: Int(readBytes))
                     didRead = buf.count
                     if buf.count > 0 {
-                        _ = buf.withUnsafeBytes { bytes in
-                            CC_SHA256_Update(&context, bytes, CC_LONG(buf.count))
+                        _ = buf.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
+                            CC_SHA256_Update(&context, body.baseAddress, CC_LONG(body.count))
                         }
                         bytesLeft -= Int64(buf.count)
                         bytesReadTotal += Int64(buf.count)

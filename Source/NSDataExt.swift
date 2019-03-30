@@ -10,7 +10,7 @@ import Foundation
 public extension Data {
 
     // http://stackoverflow.com/questions/26501276/convert-string-to-hex-string-in-swift/26502285#26502285
-    public func hexString() -> String {
+    func hexString() -> String {
         var bytes = [UInt8](repeating: 0, count: count)
         copyBytes(to: &bytes, count: count)
 
