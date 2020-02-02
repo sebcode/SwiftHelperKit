@@ -688,7 +688,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sv.SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKit;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -714,7 +714,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sv.SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKit;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -815,7 +815,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sv.SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -844,7 +844,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftHelperKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sv.SwiftHelperKit;
 				PRODUCT_NAME = SwiftHelperKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
