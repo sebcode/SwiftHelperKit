@@ -21,11 +21,7 @@ class FileTestTemp: BaseTest {
     func testCreateTempFile() {
         let file = try! File.createTemp()
         XCTAssertTrue(file.exists)
-    #if os(iOS)
-        XCTAssertTrue(file.name.contains("/tmp/"))
-    #elseif os(OSX)
         XCTAssertTrue(file.name.hasPrefix("/var/"))
-    #endif
         try! file.delete()
         XCTAssertFalse(file.exists)
     }
